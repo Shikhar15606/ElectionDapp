@@ -1,14 +1,21 @@
 {
-  "name": "api",
+  "name": "ElectionDapp",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "dev": "concurrently \"nodemon ./api/app.js\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shikhar15606/ElectionDapp.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Shikhar Shukla",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^6.2.1",
@@ -23,5 +30,9 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "web3": "^1.5.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Shikhar15606/ElectionDapp/issues"
+  },
+  "homepage": "https://github.com/Shikhar15606/ElectionDapp#readme"
 }
