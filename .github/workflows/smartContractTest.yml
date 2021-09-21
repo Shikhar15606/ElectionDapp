@@ -28,6 +28,9 @@ jobs:
       - name: Installing Truffle
         run: npm install -g truffle
       
+      - name: Installing Dependencies
+        run: npm install
+      
       - name: Compiling
         run: truffle compile
       
