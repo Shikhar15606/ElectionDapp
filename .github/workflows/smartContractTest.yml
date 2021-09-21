@@ -30,12 +30,6 @@ jobs:
       
       - name: Installing Dependencies
         run: npm install
-      
-      - name: Compiling
-        run: truffle compile
-      
-      - name: Migrating
-        run: truffle migrate
         
       - name: Testing
         run: truffle test
