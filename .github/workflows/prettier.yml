@@ -29,5 +29,5 @@ jobs:
         run: npm install
         
       - name: Checking Code Style
-        run: npm pcheck
+        run: npm run pcheck
 
