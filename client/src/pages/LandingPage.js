@@ -4,14 +4,14 @@ import Features from '../components/Features';
 import Timeline from '../components/TimeLine';
 
 const LandingPage = () => {
-    return (
-        <>
-            <Navbar />
-            <Hero />
-            <Features />
-            <Timeline />
-        </>
-    );
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <Features />
+      <Timeline />
+    </>
+  );
 };
 
 export default LandingPage;
