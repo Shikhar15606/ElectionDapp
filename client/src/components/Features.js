@@ -1,44 +1,38 @@
-import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, ScaleIcon } from '@heroicons/react/outline'
-
+import { LightningBoltIcon, ShieldCheckIcon, UserIcon, ViewGridIcon } from '@heroicons/react/outline'
 const features = [
   {
-    name: 'Competitive exchange rates',
+    name: 'Secure & Fair',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: GlobeAltIcon,
+      'Every vote is a transaction, which is secured by cryptography. Each transaction is signed with a private key and then can be further verified with a public key. If transaction data changes, the signature becomes invalid. As a result, the block is ignored and won\'t make it to the chain.',
+    icon: ShieldCheckIcon,
   },
   {
-    name: 'No hidden fees',
+    name: 'Decentralized',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: ScaleIcon,
+      'In a decentralized blockchain network, no one has to know or trust anyone else. Each member in the network has a copy of the exact same data in the form of a distributed ledger. If a member’s ledger is altered or corrupted in any way, it will be rejected by the majority of the members in the network.',
+    icon: ViewGridIcon,
   },
   {
-    name: 'Transfers are instant',
+    name: 'Your vote is private',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'In our webapp voting is done with your ethereum account and there is no link between your wallet address and your identity, your vote stays anonymous. You can also verify that your vote has been recorded with your transaction Id',
+    icon: UserIcon,
+  },
+  {
+    name: 'Fast & Simple',
+    description:
+      'Since we conduct online elections, the result can be declared quickly. Voting & Registration is also very simple and you can vote for your favourite candidate from anywhere in just a few clicks.',
     icon: LightningBoltIcon,
-  },
-  {
-    name: 'Mobile notifications',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: AnnotationIcon,
   },
 ]
 
-export default function Example() {
+const Features = () => {
   return (
     <div className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Transactions</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            A better way to send money
-          </p>
-          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in
-            accusamus quisquam.
+            Salient Features
           </p>
         </div>
 
@@ -61,3 +55,5 @@ export default function Example() {
     </div>
   )
 }
+
+export default Features;

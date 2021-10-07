@@ -1,13 +1,12 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+
+import { Disclosure } from '@headlessui/react'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom';
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'Home', href: '/home', current: true },
+  { name: 'Voters\'s Cafe', href: '#', current: false },
+  { name: 'Admin\'s Den', href: '#', current: false },
 ]
 
 function classNames(...classes) {
@@ -48,9 +47,9 @@ const Navbar = () => {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current ? 'bg-gray-100 text-indigo-600' : 'text-gray-900 hover:bg-indigo-600 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
@@ -58,13 +57,12 @@ const Navbar = () => {
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
               </div>
             </div>
           </div>
@@ -72,7 +70,7 @@ const Navbar = () => {
           <Disclosure.Panel className="sm:hidden fixed bg-white top-16 w-screen z-50">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className={classNames(
@@ -82,7 +80,7 @@ const Navbar = () => {
                   aria-current={item.current ? 'page' : undefined}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </Disclosure.Panel>

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"nodemon ./api/app.js\" \"cd client && npm start\""
+    "dev": "concurrently \"nodemon ./api/app.js\" \"cd client && npm start\"",
+    "frontend": "cd client && npm start"
   },
   "repository": {
     "type": "git",
