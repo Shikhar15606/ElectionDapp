@@ -1,0 +1,5 @@
+.github
+client/build
+client/node_modules
+client/src/contracts
+node_modules
