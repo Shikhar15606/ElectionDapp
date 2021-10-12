@@ -1,5 +1,9 @@
 import React from 'react';
 // import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import getWeb3 from "./getWeb3";
+import Navbar from './components/Navbar';
+import Leaderboard from './components/Leaderboard';
+// import "./App.css";
 // import getWeb3 from "./getWeb3";
 import LandingPage from './pages/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -7,9 +11,14 @@ const App = () => {
   return (
     <Router>
       <Switch>
+        <Route path='/leaderboard'>
+          <div class="p-8">
+              <Leaderboard />
+          </div>  
+        </Route>        
         <Route path='/'>
           <LandingPage />
-        </Route>
+        </Route>     
       </Switch>
     </Router>
   );
@@ -56,6 +65,33 @@ export default App;
 //   // Get the value from the contract to prove it worked.
 //   const response = await contract.methods.get().call();
 
+//   render() {
+//     // if (!this.state.web3) {
+//     //   return <div>Loading Web3, accounts, and contract...</div>;
+//     // }
+//     return (
+//       <div>
+//         <div className="App">
+//           <Navbar />
+//           {/* <h1>Good to Go!</h1>
+//           <p>Your Truffle Box is installed and ready.</p>
+//           <h2>Smart Contract Example</h2>
+//           <p>
+//             If your contracts compiled and migrated successfully, below will show
+//             a stored value of 5 (by default).
+//           </p>
+//           <p>
+//             Try changing the value stored on <strong>line 42</strong> of App.js.
+//           </p> */}
+//           {/* <div>The stored value is: {this.state.storageValue}</div> */}
+//         </div>
+//         <div class="p-8 ...">
+//             <Leaderboard />
+//         </div>        
+//       </div>
+//     );
+//   }
+// }
 //   // Update state with the result.
 //   this.setState({ storageValue: response });
 // };
