@@ -1,6 +1,6 @@
 import React from 'react';
 // import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import getWeb3 from "./getWeb3";
+import getWeb3 from './getWeb3';
 import Navbar from './components/Navbar';
 import Leaderboard from './components/Leaderboard';
 // import "./App.css";
@@ -12,13 +12,13 @@ const App = () => {
     <Router>
       <Switch>
         <Route path='/leaderboard'>
-          <div class="p-8">
-              <Leaderboard />
-          </div>  
-        </Route>        
+          <div class='p-8'>
+            <Leaderboard />
+          </div>
+        </Route>
         <Route path='/'>
           <LandingPage />
-        </Route>     
+        </Route>
       </Switch>
     </Router>
   );
@@ -87,7 +87,7 @@ export default App;
 //         </div>
 //         <div class="p-8 ...">
 //             <Leaderboard />
-//         </div>        
+//         </div>
 //       </div>
 //     );
 //   }
