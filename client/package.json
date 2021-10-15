@@ -2,7 +2,10 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
+    "@babel/helper-builder-react-jsx": "^7.15.4",
+    "@babel/helper-regex": "^7.10.5",
     "@craco/craco": "^6.3.0",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",

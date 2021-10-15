@@ -10,9 +10,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 const App = () => {
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route path='/leaderboard'>
-          <div class='p-8'>
+          <div class='p-2 md:p-8'>
             <Leaderboard />
           </div>
         </Route>
