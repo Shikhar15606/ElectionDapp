@@ -3,6 +3,7 @@ import React from 'react';
 import getWeb3 from './getWeb3';
 import Navbar from './components/Navbar';
 import Leaderboard from './components/Leaderboard';
+import SignIn from './components/SignIn';
 // import "./App.css";
 // import getWeb3 from "./getWeb3";
 import LandingPage from './pages/LandingPage';
@@ -12,6 +13,9 @@ const App = () => {
     <Router>
       <Navbar />
       <Switch>
+        <Route path='/login'>
+          <SignIn />
+        </Route>
         <Route path='/leaderboard'>
           <div class='p-2 md:p-8'>
             <Leaderboard />
