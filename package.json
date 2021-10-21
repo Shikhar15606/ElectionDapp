@@ -12,7 +12,8 @@
     "frontend": "cd client && npm start",
     "backend": "nodemon ./api/app.js",
     "pfix": "prettier --write .",
-    "pcheck": "prettier --check ."
+    "pcheck": "prettier --check .",
+    "start": "node api/app.js"
   },
   "repository": {
     "type": "git",
