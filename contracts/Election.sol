@@ -33,16 +33,16 @@ contract Election is Ownable{
     event CandidateCreated(string _name, string _logoLink, int16 _partyId, uint32 _pinCode);
     event VoterAdded(address _id, uint32 _pinCode);
 
-    function changePhase(uint8 _phase) internal {
+    function changePhase(uint8 _phase) private {
         phase = _phase;
     }
     
-    function startVoting() public onlyOwner {
+    function startVoting() external onlyOwner {
         require(phase == 1, "Invalid Phase");
         changePhase(2);
     }
     
-    function stopVoting() public onlyOwner {
+    function stopVoting() external onlyOwner {
         require(phase == 2, "Invalid Phase");
         changePhase(4);
     }
