@@ -23,7 +23,7 @@ const App = () => {
         </Route>
         <Route path='/'>
           <LandingPage />
-        </Route>     
+        </Route>
       </Switch>
     </Router>
   );
