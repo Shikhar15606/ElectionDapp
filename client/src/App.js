@@ -1,8 +1,9 @@
 import React from 'react';
 // import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import getWeb3 from "./getWeb3";
+import getWeb3 from './getWeb3';
 import Navbar from './components/Navbar';
 import Leaderboard from './components/Leaderboard';
+import SignIn from './components/SignIn';
 // import "./App.css";
 // import getWeb3 from "./getWeb3";
 import LandingPage from './pages/LandingPage';
@@ -10,12 +11,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 const App = () => {
   return (
     <Router>
+      <Navbar />
       <Switch>
+        <Route path='/login'>
+          <SignIn />
+        </Route>
         <Route path='/leaderboard'>
-          <div class="p-8">
-              <Leaderboard />
-          </div>  
-        </Route>        
+          <div class='p-2 md:p-8'>
+            <Leaderboard />
+          </div>
+        </Route>
         <Route path='/'>
           <LandingPage />
         </Route>     
@@ -87,7 +92,7 @@ export default App;
 //         </div>
 //         <div class="p-8 ...">
 //             <Leaderboard />
-//         </div>        
+//         </div>
 //       </div>
 //     );
 //   }

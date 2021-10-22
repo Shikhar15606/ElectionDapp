@@ -10,8 +10,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"nodemon ./api/app.js\" \"cd client && npm start\"",
     "frontend": "cd client && npm start",
+    "backend": "nodemon ./api/app.js",
     "pfix": "prettier --write .",
-    "pcheck": "prettier --check ."
+    "pcheck": "prettier --check .",
+    "start": "node api/app.js"
   },
   "repository": {
     "type": "git",
@@ -27,18 +29,20 @@
   },
   "devDependencies": {
     "concurrently": "^6.2.1",
-    "nodemon": "^2.0.12",
     "husky": "4.3.8",
+    "nodemon": "^2.0.12",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0"
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.5.0",
+    "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.11",
     "morgan": "^1.10.0",
     "web3": "^1.5.2"
   },
