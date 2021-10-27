@@ -1,4 +1,6 @@
 const Election = artifacts.require('./Election.sol');
+const time = require('./helpers/time');
+const utils = require('./helpers/utils');
 
 contract('Election', accounts => {
   let ElectionInstance;
@@ -75,13 +77,45 @@ contract('Election', accounts => {
   it('Voting can be started', async () => {
     await ElectionInstance.startVoting({ from: accounts[0] });
     const phase = await ElectionInstance.phase();
+    // console.log(ElectionInstance);
     assert.equal(phase, 2);
   });
 
-  it('Voting can be stopped', async () => {
+  it('Vote can not be casted after the voting Period', async () => {
+    // create party
+    await ElectionInstance.createPoliticalParty(
+      'Bharatiya Janata Party',
+      'https://themayanagari.com/wp-content/uploads/2021/03/Bharatiya-Janata-Party-Png.jpg',
+      { from: accounts[0] }
+    );
+
+    // create  candidate
+    await ElectionInstance.addCandidate(
+      'Narendra Modi',
+      'https://themayanagari.com/wp-content/uploads/2021/03/Bharatiya-Janata-Party-Png.jpg',
+      0,
+      486661,
+      { from: accounts[0] }
+    );
+
+    await ElectionInstance.addVoter(accounts[1], 486661, {
+      from: accounts[0],
+    });
+
+    await ElectionInstance.addVoter(accounts[2], 486661, {
+      from: accounts[0],
+    });
+
     await ElectionInstance.startVoting({ from: accounts[0] });
-    await ElectionInstance.stopVoting({ from: accounts[0] });
-    const phase = await ElectionInstance.phase();
-    assert.equal(phase, 4);
+
+    // Since voting phase is going on the voter can cast vote.
+    await ElectionInstance.vote(0, { from: accounts[1] });
+
+    // lets time travel by 1 days.
+    await time.advanceTimeAndBlock(1 * 24 * 60 * 60);
+
+    // It is expected to throw Error here because the voting period is over and a voter is trying
+    // to cast vote.
+    await utils.shouldThrow(ElectionInstance.vote(0, { from: accounts[2] }));
   });
 });
