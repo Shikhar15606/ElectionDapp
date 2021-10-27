@@ -70,7 +70,6 @@ contract('Election', accounts => {
       from: accounts[0],
     });
     assert.equal(result.logs[0].args._id, accounts[1]);
-    assert.equal(result.logs[0].args._pinCode, 486661);
   });
 
   it('Voting can be started', async () => {
