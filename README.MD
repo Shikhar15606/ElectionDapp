@@ -28,6 +28,12 @@ $ yarn backend
 $ yarn frontend
 ```
 
+- If you need both
+
+```
+$ yarn dev
+```
+
 - If you have changed the contract then just type to update artifacts
 
 ```
