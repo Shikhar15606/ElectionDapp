@@ -23,7 +23,7 @@ contract Election is Ownable{
         uint32 pinCode;
     }
     
-    uint8 public phase = 1; // 1 for registration, 2 for result, 3 end of Election
+    uint8 public phase = 1; // 1 for registration, 2 for voting, 3 for result declared
     mapping (address => Voter) voters;
     mapping (uint32 => Candidate[]) public districtToCandidates;
     PoliticalParty[] public parties;
@@ -36,12 +36,12 @@ contract Election is Ownable{
     event Vote(address _id);
 
     modifier beforeEndTime() {
-        require(block.timestamp < votingPeriod);
+        require(phase == 2 && block.timestamp < votingPeriod, "Invalid Phase");
         _;
     }
 
     modifier afterEndTime() {
-        require(block.timestamp > votingPeriod);
+        require(phase == 2 && block.timestamp > votingPeriod, "Invalid Phase");
         _;
     }
 
@@ -79,9 +79,9 @@ contract Election is Ownable{
     
     function vote(uint16 _candidateId) external beforeEndTime{
         Voter storage myVoter = voters[msg.sender];
-        require(myVoter.canVote == true);
-        require(_candidateId >= 0);
-        require(_candidateId < districtToCandidates[myVoter.pinCode].length);
+        require(myVoter.pinCode > 0, "Voter is not Registered");
+        require(myVoter.canVote, "Voter has already Voted");
+        require(_candidateId >= 0 && _candidateId < districtToCandidates[myVoter.pinCode].length);
         Candidate storage myCandidate = districtToCandidates[myVoter.pinCode][_candidateId];
         myCandidate.votes++;
         myVoter.canVote = false;
