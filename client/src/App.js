@@ -4,6 +4,8 @@ import getWeb3 from './getWeb3';
 import Navbar from './components/Navbar';
 import Leaderboard from './components/Leaderboard';
 import SignIn from './components/SignIn';
+import VoterCafe from './pages/VoterCafe';
+
 // import "./App.css";
 // import getWeb3 from "./getWeb3";
 import LandingPage from './pages/LandingPage';
@@ -13,15 +15,18 @@ const App = () => {
     <Router>
       <Navbar />
       <Switch>
-        <Route path='/login'>
+        <Route exact path='/login'>
           <SignIn />
         </Route>
-        <Route path='/leaderboard'>
+        <Route exact path='/leaderboard'>
           <div class='p-2 md:p-8'>
             <Leaderboard />
           </div>
         </Route>
-        <Route path='/'>
+        <Route exact path='/voter'>
+          <VoterCafe />
+        </Route>
+        <Route exact path='/'>
           <LandingPage />
         </Route>
       </Switch>
