@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Leaderboard from './components/Leaderboard';
 import SignIn from './components/SignIn';
 import VoterCafe from './pages/VoterCafe';
+import AdminDashboard from './pages/AdminDashboard';
 
 // import "./App.css";
 // import getWeb3 from "./getWeb3";
@@ -15,6 +16,9 @@ const App = () => {
     <Router>
       <Navbar />
       <Switch>
+        <Route exact path='/admin'>
+          <AdminDashboard />
+        </Route>
         <Route exact path='/login'>
           <SignIn />
         </Route>
