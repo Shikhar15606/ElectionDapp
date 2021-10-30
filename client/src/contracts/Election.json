@@ -13928,12 +13928,13 @@
         }
       },
       "links": {},
-      "address": "0xa8bfE976BcBE76602733D2Ba03e228610109F44b",
-      "transactionHash": "0x94ed4b0ed8288f62ee4454634ccc512a3fec245f242c47f7156bd0a007f1a26c"
+      "address": "0x18d957F494d5C7bcFDA592AAA459E21D05C1bafa",
+      "transactionHash": "0xb4c8f877b8d71d690ccfef2807e3601abedb9a714c5dc303fc40e9e58a7a9550"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-30T14:12:11.860Z",
+  "updatedAt": "2021-10-30T15:19:49.065Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "isOwner()": {
