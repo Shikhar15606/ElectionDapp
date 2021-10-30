@@ -71,8 +71,14 @@ contract Election is Ownable{
         if(districtToCandidates[_pinCode].length == 0){
             pinCodes.push(_pinCode);
         }
-        districtToCandidates[_pinCode].push(Candidate(_name, _logoLink, _partyId, 0));
-        emit CandidateCreated(_name, _logoLink, _partyId, _pinCode);
+        if(_partyId != -1){
+            districtToCandidates[_pinCode].push(Candidate(_name, parties[uint16(_partyId)].logoLink, _partyId, 0));
+            emit CandidateCreated(_name, parties[uint16(_partyId)].logoLink, _partyId, _pinCode);
+        }
+        else{
+            districtToCandidates[_pinCode].push(Candidate(_name, _logoLink, _partyId, 0));
+            emit CandidateCreated(_name, _logoLink, _partyId, _pinCode);
+        }
     }
     
     function addVoter(address _voterAccount ,uint32  _pinCode) external onlyOwner {
