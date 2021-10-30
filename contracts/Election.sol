@@ -45,6 +45,10 @@ contract Election is Ownable{
         _;
     }
 
+    function getCandidateCount(uint32 district) public view returns (uint) {
+        return districtToCandidates[district].length;
+    }
+
     function changePhase(uint8 _phase) private {
         phase = _phase;
     }
