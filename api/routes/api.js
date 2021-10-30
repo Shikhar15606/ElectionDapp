@@ -14,7 +14,7 @@ const client = require('twilio')(
 
 router.get('/', (req, res, next) => res.json({ msg: 'Application Running' }));
 
-router.get('/test/', async (req, res, next) => {
+router.get('/test/wer', async (req, res, next) => {
   // try {
   //   const provider = new Provider(privateKey, url);
   //   const web3 = new Web3(provider);
@@ -70,6 +70,39 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
       message: 'Wrong phone number :(',
       phonenumber: req.phone,
       data,
+    });
+  }
+});
+
+// Verify OTP
+router.post('/regVoter/verifyOTP', async (req, res, next) => {
+  if (req.body.phone && req.body.code.length === 4) {
+    client.verify
+      .services(process.env.SERVICE_ID)
+      .verificationChecks.create({
+        to: `+${req.body.phone}`,
+        code: req.body.code,
+      })
+      .then(data => {
+        if (data.status === 'approved') {
+          console.log('OTP is approved');
+
+          // Call AddVoter Function from smart Contract here
+
+          res.status(200).send({
+            message: 'Voter is Verified!',
+          });
+          next();
+        }
+      })
+      .catch(err => {
+        res.json(err);
+        next();
+      });
+  } else {
+    res.status(400).send({
+      message: 'Wrong phone number or code :(',
+      phonenumber: req.body.phone,
     });
   }
 });
