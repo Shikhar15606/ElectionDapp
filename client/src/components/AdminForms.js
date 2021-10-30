@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { fetchPoliticalParties, createParty } from '../actions/smartContract';
+import {
+  fetchPoliticalParties,
+  createParty,
+  createCandidate,
+} from '../actions/smartContract';
 
 export default function AdminForms(props) {
   console.log('props', props);
@@ -15,14 +19,28 @@ export default function AdminForms(props) {
   const [candidatefName, setCandidatefName] = useState();
   const [candidatelName, setCandidatelName] = useState();
   const [candidatePin, setCandidatePin] = useState();
-  const [candidateParty, setCandidateParty] = useState();
-  const [candidateLogoLink, setCandidateLogoLink] = useState();
+  const [candidateParty, setCandidateParty] = useState(-1);
+  const [candidateLogoLink, setCandidateLogoLink] = useState('');
   const [imageSelected2, setImageSelected2] = useState();
 
   const createPartyHandler = async e => {
     e.preventDefault();
     const msg = await createParty(partyName, logoLink);
     console.log('Setting : ', msg);
+    await fetchHandler();
+    props.setMessage(msg);
+  };
+
+  const createCandidateHandler = async e => {
+    e.preventDefault();
+    const msg = await createCandidate(
+      candidatefName + ' ' + candidatelName,
+      logoLink,
+      candidatePin,
+      candidateParty
+    );
+    console.log('Setting : ', msg);
+    await fetchHandler();
     props.setMessage(msg);
   };
 
@@ -66,6 +84,7 @@ export default function AdminForms(props) {
 
   const fetchHandler = useCallback(async () => {
     const res = await fetchPoliticalParties(props.contract);
+    console.log('dekh le bhai --------------', res);
     setParties(res);
   }, [props.contract]);
 
@@ -173,7 +192,7 @@ export default function AdminForms(props) {
                               type='file'
                               className='sr-only'
                               onChange={event => {
-                                setImageSelected(event.target.files[0]);
+                                setImageSelected2(event.target.files[0]);
                               }}
                             />
                           </label>
@@ -276,12 +295,15 @@ export default function AdminForms(props) {
                         name='country'
                         autoComplete='country-name'
                         className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+                        value={candidateParty}
+                        onChange={e => {
+                          console.log(e.target.value);
+                          setCandidateParty(e.target.value);
+                        }}
                       >
-                        {<option>{}</option>}
-                        <option>Macho-Men</option>
-                        <option>BJP</option>
-                        <option>Congress</option>
-                        <option>Individual</option>
+                        {parties.map(party => (
+                          <option value={party.val}>{party.name}</option>
+                        ))}
                       </select>
                     </div>
 
@@ -298,11 +320,13 @@ export default function AdminForms(props) {
                         id='postal-code'
                         autoComplete='postal-code'
                         className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        value={candidatePin}
+                        onChange={e => setCandidatePin(e.target.value)}
                       />
                     </div>
                   </div>
                 </div>
-                {candidateParty === -1 ? (
+                {candidateParty == -1 ? (
                   <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
                     <div>
                       <label className='block text-sm font-medium text-gray-700'>
@@ -384,6 +408,7 @@ export default function AdminForms(props) {
                   <button
                     type='submit'
                     className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    onClick={createCandidateHandler}
                   >
                     Save
                   </button>
