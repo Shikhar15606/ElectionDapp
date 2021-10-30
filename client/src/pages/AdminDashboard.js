@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { startVoting } from '../actions/smartContract';
+import { startVoting, declareResult } from '../actions/smartContract';
 import AdminForms from '../components/AdminForms';
 import { SpeakerphoneIcon, XIcon } from '@heroicons/react/outline';
 const AdminDashboard = () => {
@@ -9,9 +9,14 @@ const AdminDashboard = () => {
     e.preventDefault();
     const msg = await startVoting();
     console.log('Setting : ', msg);
-    setMessage(msg.message);
+    setMessage(msg);
   };
-  const declareResultHandler = () => {};
+  const declareResultHandler = async e => {
+    e.preventDefault();
+    const msg = await declareResult();
+    console.log('Setting : ', msg);
+    setMessage(msg);
+  };
 
   const closeMessage = async e => {
     e.preventDefault();
@@ -33,7 +38,7 @@ const AdminDashboard = () => {
                     />
                   </span>
                   <p className='ml-3 font-medium text-white truncate'>
-                    <span className='md:hidden'>{message}</span>
+                    <span>{message}</span>
                   </p>
                 </div>
                 <div className='order-2 flex-shrink-0 sm:order-3 sm:ml-3'>

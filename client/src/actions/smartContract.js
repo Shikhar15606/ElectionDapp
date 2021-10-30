@@ -7,12 +7,17 @@ const setInFile = (_web3, _accounts, _contract) => {
 };
 const startVoting = async () => {
   try {
+    let phase = await contract.methods.phase().call();
+    if (phase != 1) return 'Invalid Phase';
+
     const res = await contract.methods
       .startVoting()
       .send({ from: accounts[0] });
     console.log(res);
-    const phase = await contract.methods.phase().call();
+
+    phase = await contract.methods.phase().call();
     console.log(phase);
+
     if (phase == 2) return 'Success';
     else return 'Some Error Occured :(';
   } catch (err) {
@@ -20,6 +25,31 @@ const startVoting = async () => {
   }
 };
 
-const declareResult = () => {};
+const declareResult = async () => {
+  try {
+    let phase = await contract.methods.phase().call();
+    if (phase != 2) return 'Invalid Phase';
+
+    let endTime = await contract.methods.votingPeriod().call();
+    endTime = endTime * 1000;
+
+    if (endTime > new Date().getTime()) {
+      return 'Voting is Ongoing. :(';
+    }
+
+    const res = await contract.methods
+      .computeResult()
+      .send({ from: accounts[0] });
+    console.log(res);
+
+    phase = await contract.methods.phase().call();
+    console.log(phase);
+
+    if (phase == 3) return 'Success';
+    else return 'Some Error Occured :(';
+  } catch (err) {
+    return 'Some Error Occured :(';
+  }
+};
 
 export { setInFile, startVoting, declareResult };
