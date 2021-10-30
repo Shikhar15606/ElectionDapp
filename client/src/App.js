@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 // import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from './getWeb3';
 import Navbar from './components/Navbar';
@@ -7,17 +7,45 @@ import SignIn from './components/SignIn';
 import VoterCafe from './pages/VoterCafe';
 import AdminDashboard from './pages/AdminDashboard';
 import Auth from './auth';
+import { isAdmin } from './actions/backend';
+import Loading from './components/Loading';
+
 // import "./App.css";
 // import getWeb3 from "./getWeb3";
 import LandingPage from './pages/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 const App = () => {
+  const [isLogin, setisLogin] = useState('Loading');
+
+  const check = useCallback(async () => {
+    try {
+      const res = await isAdmin();
+      setisLogin(res);
+    } catch (err) {
+      console.log(err);
+      setisLogin(false);
+    }
+  }, [setisLogin]);
+
+  useEffect(() => {
+    console.log('Check called');
+    check();
+  }, [check]);
+
   return (
     <Router>
-      <Navbar />
+      <Navbar isLogin={isLogin} setisLogin={setisLogin} />
       <Switch>
-        <Route exact path='/admin' component={Auth(AdminDashboard, true)} />
-        <Route exact path='/login' component={Auth(SignIn, false)} />
+        <Route
+          exact
+          path='/admin'
+          component={Auth(AdminDashboard, isLogin, setisLogin, true)}
+        />
+        <Route
+          exact
+          path='/login'
+          component={Auth(SignIn, isLogin, setisLogin, false)}
+        />
         <Route exact path='/voter'>
           <VoterCafe />
         </Route>
