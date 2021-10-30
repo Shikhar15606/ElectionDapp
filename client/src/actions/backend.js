@@ -27,4 +27,15 @@ const login = async (email, password) => {
     return { msg: 'Some Error Occured' };
   }
 };
-export { isAdmin, login };
+
+const logout = async () => {
+  try {
+    const res = await axios.get('http://localhost:5000/auth/logout');
+    console.log(res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return { msg: 'Some Error Occured' };
+  }
+};
+export { isAdmin, login, logout };

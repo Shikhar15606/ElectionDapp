@@ -3,7 +3,8 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import { login } from '../actions/backend';
 import { useHistory } from 'react-router-dom';
 import MessageComponent from './Message';
-export default function SignIn() {
+export default function SignIn(props) {
+  console.log(props);
   const history = useHistory();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -13,6 +14,7 @@ export default function SignIn() {
     const res = await login(email, password);
     if (res.msg === 'Login Success') {
       history.push('/admin');
+      props.setisLogin(true);
     } else {
       setErr(res.msg);
     }
