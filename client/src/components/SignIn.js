@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { login } from '../actions/backend';
 import { useHistory } from 'react-router-dom';
+import MessageComponent from './Message';
 export default function SignIn() {
   const history = useHistory();
   const [email, setEmail] = useState();
@@ -17,22 +18,7 @@ export default function SignIn() {
     }
   };
   if (err) {
-    return (
-      <div className='min-h-screen flex items-start justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
-        <div className='max-w-md w-full space-y-8'>
-          <div>
-            <img
-              className='mx-auto h-12 w-auto'
-              src='https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg'
-              alt='Workflow'
-            />
-            <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-              {err}
-            </h2>
-          </div>
-        </div>
-      </div>
-    );
+    return <MessageComponent msg={err} />;
   }
   return (
     <div className='min-h-screen flex items-start justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
@@ -48,9 +34,6 @@ export default function SignIn() {
           </h2>
           <p className='font-medium mt-2 text-center text-sm text-indigo-600'>
             Please Provide Admin Credentials{' '}
-            {/* <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-              start your 14-day free trial
-            </a> */}
           </p>
         </div>
         <form className='mt-8 space-y-9' action='#' method='POST'>
