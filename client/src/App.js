@@ -6,7 +6,7 @@ import Leaderboard from './components/Leaderboard';
 import SignIn from './components/SignIn';
 import VoterCafe from './pages/VoterCafe';
 import AdminDashboard from './pages/AdminDashboard';
-
+import Auth from './auth';
 // import "./App.css";
 // import getWeb3 from "./getWeb3";
 import LandingPage from './pages/LandingPage';
@@ -16,12 +16,8 @@ const App = () => {
     <Router>
       <Navbar />
       <Switch>
-        <Route exact path='/admin'>
-          <AdminDashboard />
-        </Route>
-        <Route exact path='/login'>
-          <SignIn />
-        </Route>
+        <Route exact path='/admin' component={Auth(AdminDashboard, true)} />
+        <Route exact path='/login' component={Auth(SignIn, false)} />
         <Route exact path='/leaderboard'>
           <div class='p-2 md:p-8'>
             <Leaderboard />
