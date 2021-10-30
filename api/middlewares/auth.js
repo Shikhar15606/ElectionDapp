@@ -1,4 +1,5 @@
 const Admin = require('../models/admin');
+const Voters = require('../models/voters');
 const bcrypt = require('bcrypt');
 
 exports.checkCredentials = async (req, res, next) => {
@@ -25,6 +26,29 @@ exports.checkCredentials = async (req, res, next) => {
       // no data found for given email
       return res.status(401).json({
         message: 'Invalid email/password combination',
+      });
+    }
+  });
+};
+
+exports.fetchVoter = async (req, res, next) => {
+  const voterID = req.query.voterID;
+
+  Voters.findOne({ voterID: voterID }).exec(async (error, voterData) => {
+    if (error) {
+      // some error occured
+      return res.status(400).json({ error });
+    }
+    if (voterData) {
+      // VoterID is correct checking for password
+      req.phone = voterData.phone;
+      req.district = voterData.pinCode;
+      req.hasRegistered = voterData.hasRegistered;
+      next();
+    } else {
+      // no data found for given VoterID
+      return res.status(401).json({
+        message: 'Invalid VoterID',
       });
     }
   });
