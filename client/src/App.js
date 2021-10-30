@@ -18,11 +18,6 @@ const App = () => {
       <Switch>
         <Route exact path='/admin' component={Auth(AdminDashboard, true)} />
         <Route exact path='/login' component={Auth(SignIn, false)} />
-        <Route exact path='/leaderboard'>
-          <div class='p-2 md:p-8'>
-            <Leaderboard />
-          </div>
-        </Route>
         <Route exact path='/voter'>
           <VoterCafe />
         </Route>

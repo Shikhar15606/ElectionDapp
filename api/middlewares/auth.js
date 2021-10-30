@@ -18,14 +18,14 @@ exports.checkCredentials = async (req, res, next) => {
         req.adminID = adminData._id;
         next();
       } else {
-        return res.status(401).json({
-          message: 'Invalid email/password combination',
+        return res.status(200).json({
+          msg: 'Invalid email/password combination',
         });
       }
     } else {
       // no data found for given email
-      return res.status(401).json({
-        message: 'Invalid email/password combination',
+      return res.status(200).json({
+        msg: 'Invalid email/password combination',
       });
     }
   });
@@ -48,7 +48,7 @@ exports.fetchVoter = async (req, res, next) => {
     } else {
       // no data found for given VoterID
       return res.status(401).json({
-        message: 'Invalid VoterID',
+        msg: 'Invalid VoterID',
       });
     }
   });
