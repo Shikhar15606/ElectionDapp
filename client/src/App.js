@@ -19,6 +19,7 @@ const App = () => {
   // ===================== setInfile ====================
   useEffect(() => {
     setInFile(web3, accounts, contract);
+    console.log('contract => ' + contract);
   }, [web3, accounts, contract]);
 
   const init = useCallback(async () => {
@@ -92,7 +93,7 @@ const App = () => {
           component={Auth(SignIn, isLogin, setisLogin, false)}
         />
         <Route exact path='/voter'>
-          <VoterCafe />
+          <VoterCafe contract={contract} />
         </Route>
         <Route exact path='/'>
           <LandingPage />
