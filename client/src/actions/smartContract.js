@@ -52,4 +52,21 @@ const declareResult = async () => {
   }
 };
 
-export { setInFile, startVoting, declareResult };
+const getPhase = async _contract => {
+  console.log('inside getPhase => ');
+  try {
+    if (!_contract) {
+      console.log('contract is not set');
+      return;
+    }
+    console.log('_contract => ' + _contract);
+    console.log('contract is set');
+    const phase = await _contract.methods.phase().call();
+    console.log(phase);
+    return phase;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { setInFile, getPhase, startVoting, declareResult };
