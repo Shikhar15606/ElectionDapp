@@ -32,8 +32,8 @@ contract Election is Ownable{
     
     event PoliticalPartyCreated(string _name, string _logoLink);
     event CandidateCreated(string _name, string _logoLink, int16 _partyId, uint32 _pinCode);
-    event VoterAdded(address _id);
-    event Vote(address _id);
+    event VoterAdded(address indexed _id);
+    event Vote(address indexed _id);
 
     modifier beforeEndTime() {
         require(phase == 2 && block.timestamp < votingPeriod, "Invalid Phase");
