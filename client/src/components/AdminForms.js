@@ -1,8 +1,30 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { fetchPoliticalParties, createParty } from '../actions/smartContract';
 
-export default function AdminForms() {
-  const [imageSelected, setImageSelected] = useState();
+export default function AdminForms(props) {
+  console.log('props', props);
+  if (!props.contract) {
+    console.log('Contract Initialized in Admin Forms');
+  }
+  const [parties, setParties] = useState([]);
+  // ============ party data ===============
   const [logoLink, setlogoLink] = useState();
+  const [partyName, setPartyName] = useState();
+  const [imageSelected, setImageSelected] = useState();
+  // ============ candidate data ===============
+  const [candidatefName, setCandidatefName] = useState();
+  const [candidatelName, setCandidatelName] = useState();
+  const [candidatePin, setCandidatePin] = useState();
+  const [candidateParty, setCandidateParty] = useState();
+  const [candidateLogoLink, setCandidateLogoLink] = useState();
+  const [imageSelected2, setImageSelected2] = useState();
+
+  const createPartyHandler = async e => {
+    e.preventDefault();
+    const msg = await createParty(partyName, logoLink);
+    console.log('Setting : ', msg);
+    props.setMessage(msg);
+  };
 
   const uploadImage = () => {
     console.log(imageSelected);
@@ -23,6 +45,34 @@ export default function AdminForms() {
       });
   };
 
+  const uploadImage2 = () => {
+    console.log(imageSelected2);
+    const formData = new FormData();
+    formData.append('file', imageSelected2);
+    formData.append('upload_preset', 'wsxwpnhz');
+    formData.append('cloud_name', 'hardik-election');
+    fetch('https://api.cloudinary.com/v1_1/hardik-election/image/upload', {
+      method: 'post',
+      body: formData,
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCandidateLogoLink(data.url);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const fetchHandler = useCallback(async () => {
+    const res = await fetchPoliticalParties(props.contract);
+    setParties(res);
+  }, [props.contract]);
+
+  useEffect(() => {
+    fetchHandler();
+  }, [fetchHandler]);
+
   return (
     <>
       <div>
@@ -38,7 +88,7 @@ export default function AdminForms() {
             </div>
           </div>
           <div className='mt-5 md:mt-0 md:col-span-2'>
-            <form action='#' method='POST'>
+            <form>
               <div className='shadow sm:rounded-md sm:overflow-hidden'>
                 <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
                   <div className='grid grid-cols-3 gap-6'>
@@ -55,6 +105,10 @@ export default function AdminForms() {
                         id='first-name'
                         autoComplete='given-name'
                         className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        value={partyName}
+                        onChange={e => {
+                          setPartyName(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -66,7 +120,7 @@ export default function AdminForms() {
                     <div className='mt-1 flex items-center'>
                       <span className='inline-block bg-cover h-12 w-12 rounded-full overflow-hidden bg-gray-100'>
                         {logoLink ? (
-                          <img src={logoLink} />
+                          <img src={logoLink} alt='xyz' />
                         ) : (
                           <svg
                             className='h-full w-full text-gray-300'
@@ -89,7 +143,7 @@ export default function AdminForms() {
 
                   <div>
                     <label className='block text-sm font-medium text-gray-700'>
-                      Cover photo
+                      Electoral Symbol
                     </label>
                     <div className='mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md'>
                       <div className='space-y-1 text-center'>
@@ -112,7 +166,7 @@ export default function AdminForms() {
                             htmlFor='file-upload'
                             className='relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'
                           >
-                            <span>Upload a file</span>
+                            <span>Choose a File</span>
                             <input
                               id='file-upload'
                               name='file-upload'
@@ -136,6 +190,7 @@ export default function AdminForms() {
                   <button
                     type='submit'
                     className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    onClick={createPartyHandler}
                   >
                     Save
                   </button>
@@ -160,7 +215,7 @@ export default function AdminForms() {
                 Candidate Registration
               </h3>
               <p className='mt-1 text-sm text-gray-600'>
-                Use a permanent address where you can receive mail.
+                Enter the Details of the candidate
               </p>
             </div>
           </div>
@@ -182,6 +237,10 @@ export default function AdminForms() {
                         id='first-name'
                         autoComplete='given-name'
                         className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        value={candidatefName}
+                        onChange={e => {
+                          setCandidatefName(e.target.value);
+                        }}
                       />
                     </div>
 
@@ -198,6 +257,10 @@ export default function AdminForms() {
                         id='last-name'
                         autoComplete='family-name'
                         className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                        value={candidatelName}
+                        onChange={e => {
+                          setCandidatelName(e.target.value);
+                        }}
                       />
                     </div>
 
@@ -214,6 +277,7 @@ export default function AdminForms() {
                         autoComplete='country-name'
                         className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       >
+                        {<option>{}</option>}
                         <option>Macho-Men</option>
                         <option>BJP</option>
                         <option>Congress</option>
@@ -238,6 +302,84 @@ export default function AdminForms() {
                     </div>
                   </div>
                 </div>
+                {candidateParty === -1 ? (
+                  <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
+                    <div>
+                      <label className='block text-sm font-medium text-gray-700'>
+                        Electoral Symbol
+                      </label>
+                      <div className='mt-1 flex items-center'>
+                        <span className='inline-block bg-cover h-12 w-12 rounded-full overflow-hidden bg-gray-100'>
+                          {candidateLogoLink ? (
+                            <img src={candidateLogoLink} alt='xyz' />
+                          ) : (
+                            <svg
+                              className='h-full w-full text-gray-300'
+                              fill='currentColor'
+                              viewBox='0 0 24 24'
+                            >
+                              <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
+                            </svg>
+                          )}
+                        </span>
+                        <button
+                          type='button'
+                          className='ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                          onClick={uploadImage2}
+                        >
+                          Upload
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className='block text-sm font-medium text-gray-700'>
+                        Electoral Symbol
+                      </label>
+                      <div className='mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md'>
+                        <div className='space-y-1 text-center'>
+                          <svg
+                            className='mx-auto h-12 w-12 text-gray-400'
+                            stroke='currentColor'
+                            fill='none'
+                            viewBox='0 0 48 48'
+                            aria-hidden='true'
+                          >
+                            <path
+                              d='M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02'
+                              strokeWidth={2}
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                            />
+                          </svg>
+                          <div className='flex text-sm text-gray-600'>
+                            <label
+                              htmlFor='file-upload'
+                              className='relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'
+                            >
+                              <span>Choose a File</span>
+                              <input
+                                id='file-upload'
+                                name='file-upload'
+                                type='file'
+                                className='sr-only'
+                                onChange={event => {
+                                  setImageSelected2(event.target.files[0]);
+                                }}
+                              />
+                            </label>
+                            <p className='pl-1'>or drag and drop</p>
+                          </div>
+                          <p className='text-xs text-gray-500'>
+                            PNG, JPG, etc up to 10MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
                   <button
                     type='submit'
