@@ -13933,8 +13933,7 @@
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-30T09:11:43.268Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-10-30T14:12:11.860Z",
   "devdoc": {
     "methods": {
       "isOwner()": {
