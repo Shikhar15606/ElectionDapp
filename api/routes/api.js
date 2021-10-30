@@ -60,14 +60,14 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
       })
       .then(data => {
         res.status(200).send({
-          message: 'OTP is sent!',
+          msg: 'OTP is sent!',
           phonenumber: req.phone,
           data,
         });
       });
   } else {
     res.status(400).send({
-      message: 'Wrong phone number :(',
+      msg: 'Wrong phone number :(',
       phonenumber: req.phone,
       data,
     });
@@ -90,7 +90,7 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
           // Call AddVoter Function from smart Contract here
 
           res.status(200).send({
-            message: 'Voter is Verified!',
+            msg: 'Voter is Verified!',
           });
           next();
         }
@@ -101,7 +101,7 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
       });
   } else {
     res.status(400).send({
-      message: 'Wrong phone number or code :(',
+      msg: 'Wrong phone number or code :(',
       phonenumber: req.body.phone,
     });
   }
