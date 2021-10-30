@@ -9,13 +9,17 @@ import Auth from './auth';
 import { isAdmin } from './actions/backend';
 import LandingPage from './pages/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { StepInstance } from 'twilio/lib/rest/studio/v1/flow/engagement/step';
+import { setInFile } from './actions/smartContract';
 const App = () => {
   const [isLogin, setisLogin] = useState('Loading');
   // ===================== web 3 ========================
   const [web3, setweb3] = useState(null);
   const [accounts, setaccounts] = useState(null);
   const [contract, setContract] = useState(null);
+  // ===================== setInfile ====================
+  useEffect(() => {
+    setInFile(web3, accounts, contract);
+  }, [web3, accounts, contract]);
 
   const init = useCallback(async () => {
     try {
