@@ -58,6 +58,9 @@ const App = () => {
   useEffect(() => {
     init();
   }, []);
+  if (!contract) {
+    console.log('Contract Initialized');
+  }
 
   const check = useCallback(async () => {
     try {
@@ -85,7 +88,7 @@ const App = () => {
         <Route
           exact
           path='/admin'
-          component={Auth(AdminDashboard, isLogin, setisLogin, true)}
+          component={Auth(AdminDashboard, isLogin, setisLogin, true, contract)}
         />
         <Route
           exact
