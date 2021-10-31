@@ -24,7 +24,7 @@ contract Election is Ownable{
     }
     
     uint8 public phase = 1; // 1 for registration, 2 for voting, 3 for result declared
-    mapping (address => Voter) voters;
+    mapping (address => Voter) public voters;
     mapping (uint32 => Candidate[]) public districtToCandidates;
     PoliticalParty[] public parties;
     uint32[] pinCodes;

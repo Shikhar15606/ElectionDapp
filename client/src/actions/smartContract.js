@@ -128,6 +128,29 @@ const createCandidate = async (_name, _logoLink, _pinCode, _partyId) => {
     return 'Some Error Occured :(';
   }
 };
+const getCandidates = async _id => {
+  try {
+    console.log('contract', contract);
+    let voter = await contract.methods.voters(_id).call();
+    if (voter.canVote == false) return 'You have already voted or unregistered';
+    console.log("voter's district", voter.pinCode);
+    let len = await contract.methods.getCandidateCount(_id).call();
+    console.log('partiesLen', len);
+    let candidates = [];
+    for (let i = 0; i < parseInt(len); i++) {
+      let res = await contract.methods
+        .districtToCandidates(voter.pinCode, i)
+        .call();
+      candidates.push({ ...res, val: i });
+    }
+    console.log('candidates', candidates);
+    return candidates;
+  } catch (err) {
+    console.log(err);
+    return 'You are not authorized to vote';
+  }
+};
+
 export {
   setInFile,
   startVoting,
@@ -136,4 +159,5 @@ export {
   createParty,
   createCandidate,
   getPhase,
+  getCandidates,
 };

@@ -1,4 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/solid';
+import { getCandidates } from '../../actions/smartContract';
+
 const Step1 = props => {
   return (
     <div>
@@ -40,11 +42,19 @@ const Step1 = props => {
               <button
                 type='submit'
                 className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                onClick={e => {
+                onClick={async e => {
                   e.preventDefault();
-                  props.setStep(2);
-                  console.log(props.voterId);
                   console.log(props.ethereumId);
+                  const res = await getCandidates(props.ethereumId);
+                  if (
+                    res == 'You are not authorized to vote' ||
+                    res == 'You have already voted or unregistered'
+                  )
+                    alert('You are not authorized to vote');
+                  else {
+                    props.setCandidates(res);
+                    props.setStep(2);
+                  }
                 }}
               >
                 <span className='absolute left-0 inset-y-0 flex items-center pl-3'>

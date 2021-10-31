@@ -44,6 +44,8 @@ const Voter = props => {
           setEthereumId={setEthereumId}
           step={step}
           setStep={setStep}
+          candidates={candidates}
+          setCandidates={setCandidates}
         />
       );
     case 2:
