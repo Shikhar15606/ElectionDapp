@@ -44,16 +44,16 @@ export default function Pagination({
         <table className='flext w-full flex-1'>
           <thead className='bg-indigo-200  w-full flex-1 h-16'>
             <tr className='w-full flex-1 justify-around items-center text-center text-sm text-black'>
-              <th>Rank</th>
+              <th>Party Id</th>
               <th>Symbol</th>
-              <th>{title}</th>
-              <th>{StatisticsType}</th>
+              <th>Party Name</th>
+              <th>Seats</th>
             </tr>
           </thead>
           <tbody class='bg-white'>
             {getPaginatedData().map((d, idx) => (
               <tr
-                key={d.email}
+                key={idx}
                 class='group flex-1 justify-around items-center border-gray-400 text-center whitespace-nowrap h-20 md:h-24 transition duration-300 ease-in-out hover:bg-indigo-600 hover:text-white transform hover:scale-y-110 shadow-md hover:font-bold'
               >
                 <td>{idx + 1 + (currentPage - 1) * 10}.</td>
@@ -61,15 +61,15 @@ export default function Pagination({
                   <div className='flex flex-1 items-center justify-center'>
                     <img
                       className='h-12 w-12 md:h-16 md:w-16 rounded-full transform group-hover:scale-x-110 ease-in-out duration-300'
-                      src={d.image}
+                      src={d.logoLink}
                       alt=''
                     />
                   </div>
                 </td>
-                <td>{d.name}.</td>
+                <td>{d.name}</td>
                 <td>
                   <span className='px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-green-100 text-green-800'>
-                    {StatisticsNumber}
+                    {d.seats}
                   </span>
                 </td>
               </tr>

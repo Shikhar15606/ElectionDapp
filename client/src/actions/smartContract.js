@@ -87,6 +87,23 @@ const fetchPoliticalParties = async _contract => {
     return [];
   }
 };
+const fetchPoliticalParties2 = async () => {
+  try {
+    console.log('_contract', contract);
+    let partiesLen = await contract.methods.getParties().call();
+    console.log('partiesLen', partiesLen);
+    let parties = [];
+    for (let i = 0; i < parseInt(partiesLen); i++) {
+      let res = await contract.methods.parties(i).call();
+      parties.push({ ...res, val: i });
+    }
+    console.log('parties', parties);
+    return parties;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
 
 const createParty = async (_name, _logoLink) => {
   console.log('In Crete Party', _name, _logoLink);
@@ -169,6 +186,7 @@ export {
   startVoting,
   declareResult,
   fetchPoliticalParties,
+  fetchPoliticalParties2,
   createParty,
   createCandidate,
   getPhase,
