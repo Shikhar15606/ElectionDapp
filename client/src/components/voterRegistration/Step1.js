@@ -12,7 +12,7 @@ const Step1 = props => {
       const res = await sendOTP(props.voterId);
       console.log(res);
       if (res.msg === 'OTP is sent!') {
-        props.onSendOTP(res.district);
+        props.onSendOTP(res.district, res.phonenumber);
       } else if (res.msg === 'Voter already registered') {
         setErr('Voter already registered');
       }

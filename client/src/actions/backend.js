@@ -52,4 +52,23 @@ const sendOTP = async voterID => {
   }
 };
 
-export { isAdmin, login, logout, sendOTP };
+const verifyOTP = async (phone, code) => {
+  console.log('phone => ' + phone);
+  console.log('code => ' + code);
+  try {
+    const res = await axios.post(
+      'http://localhost:5000/api/regVoter/verifyOTP',
+      {
+        phone: phone,
+        code: code,
+      }
+    );
+    console.log(res);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return { msg: 'OTP not verified' };
+  }
+};
+
+export { isAdmin, login, logout, sendOTP, verifyOTP };
