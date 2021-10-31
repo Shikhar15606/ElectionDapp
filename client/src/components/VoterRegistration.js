@@ -32,7 +32,14 @@ const VoterRegistration = () => {
       );
     case 2:
       return (
-        <Step2 phone={phone} district={district} otp={otp} setotp={setotp} />
+        <Step2
+          phone={phone}
+          district={district}
+          voterID={voterId}
+          VoterEthID={ethereumId}
+          otp={otp}
+          setotp={setotp}
+        />
       );
     default:
       return <> </>;

@@ -8,10 +8,18 @@ const Step2 = props => {
   const verifyOTPHandler = async e => {
     e.preventDefault();
     try {
-      const res = await verifyOTP(props.phone, props.otp);
+      const res = await verifyOTP(
+        props.phone,
+        props.otp,
+        props.voterID,
+        props.VoterEthID,
+        props.district
+      );
       console.log('indide Verify Handler => ' + props.district);
       // console.log(res);
-      setErr(res.msg);
+      if (res.status == true) {
+        setErr('Voter is registered');
+      } else setErr('Voter not registered');
     } catch (err) {
       console.log(err);
       setErr(err);
