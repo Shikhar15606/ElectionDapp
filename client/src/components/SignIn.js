@@ -19,7 +19,6 @@ export default function SignIn(props) {
       setErr(res.msg);
     }
   };
-
   if (err) {
     return <MessageComponent msg={err} />;
   }

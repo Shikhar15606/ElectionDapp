@@ -6,14 +6,6 @@ const VoterRegistration = () => {
   const [voterId, setVoterId] = useState('');
   const [ethereumId, setEthereumId] = useState('');
   const [otp, setotp] = useState();
-  const [district, setDistrict] = useState();
-
-  const handleSendOTP = _district => {
-    setStep(2);
-    setDistrict(_district);
-    console.log('Inside handleSendOTP and district is => ' + _district);
-  };
-
   switch (step) {
     case 1:
       return (
@@ -24,7 +16,6 @@ const VoterRegistration = () => {
           setEthereumId={setEthereumId}
           step={step}
           setStep={setStep}
-          onSendOTP={handleSendOTP}
         />
       );
     case 2:

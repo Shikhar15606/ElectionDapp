@@ -38,18 +38,4 @@ const logout = async () => {
     return { msg: 'Some Error Occured' };
   }
 };
-
-const sendOTP = async voterID => {
-  try {
-    const res = await axios.get('http://localhost:5000/api/regVoter/sendOTP', {
-      params: { voterID: voterID },
-    });
-    console.log(res);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-    return { msg: 'OTP not sent' };
-  }
-};
-
-export { isAdmin, login, logout, sendOTP };
+export { isAdmin, login, logout };

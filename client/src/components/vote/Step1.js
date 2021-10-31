@@ -17,7 +17,7 @@ const Step1 = props => {
               Please enter the Ethereum Id{' '}
             </p>
           </div>
-          <form className='mt-8 space-y-9' action='#' method='GET'>
+          <form className='mt-8 space-y-9' action='#' method='POST'>
             <input type='hidden' name='remember' defaultValue='true' />
             <div className='rounded-md shadow-sm space-y-1'>
               <div>
