@@ -52,15 +52,21 @@ const sendOTP = async voterID => {
   }
 };
 
-const verifyOTP = async (phone, code) => {
+const verifyOTP = async (phone, code, voterID, VoterEthID, district) => {
   console.log('phone => ' + phone);
   console.log('code => ' + code);
+  console.log('code => ' + voterID);
+  console.log('code => ' + VoterEthID);
+  console.log('code => ' + district);
   try {
     const res = await axios.post(
       'http://localhost:5000/api/regVoter/verifyOTP',
       {
         phone: phone,
         code: code,
+        voterID: voterID,
+        VoterEthID: VoterEthID,
+        district: district,
       }
     );
     console.log(res);

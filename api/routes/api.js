@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Voters = require('../models/voters');
 // const Provider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
 const { fetchVoter } = require('../middlewares/auth');
@@ -11,6 +12,22 @@ const client = require('twilio')(
   process.env.ACCOUNT_SID,
   process.env.AUTH_TOKEN
 );
+const Web3 = require('web3');
+const ElectionContract = require('../../client/src/contracts/Election.json');
+
+let web3, networkId, electionContract, accounts;
+
+const init = async () => {
+  web3 = new Web3(
+    new Web3.providers.WebsocketProvider(process.env.BLOCKCHAIN_URL)
+  );
+  networkId = await web3.eth.net.getId();
+  electionContract = new web3.eth.Contract(
+    ElectionContract.abi,
+    ElectionContract.networks[networkId].address
+  );
+  accounts = await web3.eth.getAccounts();
+};
 
 router.get('/', (req, res, next) => res.json({ msg: 'Application Running' }));
 
@@ -78,35 +95,59 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
 
 // Verify OTP
 router.post('/regVoter/verifyOTP', async (req, res, next) => {
-  if (req.body.phone && req.body.code.length === 4) {
-    client.verify
-      .services(process.env.SERVICE_ID)
-      .verificationChecks.create({
-        to: `+${req.body.phone}`,
-        code: req.body.code,
-      })
-      .then(data => {
-        if (data.status === 'approved') {
-          console.log('OTP is approved');
+  // if (req.body.phone && req.body.code.length === 4) {
+  //   client.verify
+  //     .services(process.env.SERVICE_ID)
+  //     .verificationChecks.create({
+  //       to: `+${req.body.phone}`,
+  //       code: req.body.code,
+  //     })
+  //     .then(data => {
+  //       if (data.status === 'approved') {
+  //         console.log('OTP is approved');
 
-          // Call AddVoter Function from smart Contract here
+  // Calling AddVoter Function from smart Contract here
+  try {
+    console.log('init');
+    if (!web3) await init();
+    const adminAccount = accounts[0];
+    // const voterAccount = req.body.VoterEthID;
+    const voterAccount = accounts[1];
+    console.log(voterAccount);
+    const receipt = await electionContract.methods
+      .addVoter(voterAccount, req.body.district)
+      .send({ from: adminAccount });
+    console.log('inside addVoter in verifyOTP route');
+    console.log(receipt);
 
-          res.status(200).send({
-            msg: 'Voter is Verified!',
-          });
-          next();
-        }
-      })
-      .catch(err => {
-        res.json(err);
-        next();
-      });
-  } else {
-    res.status(400).send({
-      msg: 'Wrong phone number or code :(',
-      phonenumber: req.body.phone,
-    });
+    // update mongodb
+    await Voter.update(
+      { voterID: req.body.voterID },
+      { $set: { hasRegistered: true } }
+    );
+
+    res.json(receipt);
+  } catch (err) {
+    console.log(err);
+    res.json(err);
   }
+
+  // res.status(200).send({
+  //   msg: 'Voter is Verified!',
+  // });
+  next();
+  //   }
+  // })
+  // .catch(err => {
+  //   res.json(err);
+  //   next();
+  // });
+  // } else {
+  //   res.status(400).send({
+  //     msg: 'Wrong phone number or code :(',
+  //     phonenumber: req.body.phone,
+  //   });
+  // }
 });
 
 module.exports = router;
