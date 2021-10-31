@@ -17,7 +17,9 @@ const Step2 = props => {
       );
       console.log('indide Verify Handler => ' + props.district);
       // console.log(res);
-      setErr(res.msg);
+      if (res.status == true) {
+        setErr('Voter is registered');
+      } else setErr('Voter not registered');
     } catch (err) {
       console.log(err);
       setErr(err);

@@ -95,59 +95,63 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
 
 // Verify OTP
 router.post('/regVoter/verifyOTP', async (req, res, next) => {
-  // if (req.body.phone && req.body.code.length === 4) {
-  //   client.verify
-  //     .services(process.env.SERVICE_ID)
-  //     .verificationChecks.create({
-  //       to: `+${req.body.phone}`,
-  //       code: req.body.code,
-  //     })
-  //     .then(data => {
-  //       if (data.status === 'approved') {
-  //         console.log('OTP is approved');
+  if (req.body.phone && req.body.code.length === 4) {
+    client.verify
+      .services(process.env.SERVICE_ID)
+      .verificationChecks.create({
+        to: `+${req.body.phone}`,
+        code: req.body.code,
+      })
+      .then(async data => {
+        if (data.status === 'approved') {
+          console.log('OTP is approved');
 
-  // Calling AddVoter Function from smart Contract here
-  try {
-    console.log('init');
-    if (!web3) await init();
-    const adminAccount = accounts[0];
-    // const voterAccount = req.body.VoterEthID;
-    const voterAccount = accounts[1];
-    console.log(voterAccount);
-    const receipt = await electionContract.methods
-      .addVoter(voterAccount, req.body.district)
-      .send({ from: adminAccount });
-    console.log('inside addVoter in verifyOTP route');
-    console.log(receipt);
+          const funct = async () => {
+            // Calling AddVoter Function from smart Contract here
+            try {
+              console.log('init');
+              if (!web3) await init();
+              const adminAccount = accounts[0];
+              const voterAccount = req.body.VoterEthID;
+              // console.log(VoterEthID);
+              // const voterAccount = accounts[1];
+              console.log(voterAccount);
+              const receipt = await electionContract.methods
+                .addVoter(voterAccount, req.body.district)
+                .send({ from: adminAccount });
+              console.log('inside addVoter in verifyOTP route');
+              console.log(receipt);
 
-    // update mongodb
-    await Voter.update(
-      { voterID: req.body.voterID },
-      { $set: { hasRegistered: true } }
-    );
+              // update mongodb
+              await Voters.updateOne(
+                { voterID: req.body.voterID },
+                { $set: { hasRegistered: true } }
+              );
 
-    res.json(receipt);
-  } catch (err) {
-    console.log(err);
-    res.json(err);
+              res.json(receipt);
+            } catch (err) {
+              console.log(err);
+              res.json(err);
+            }
+          };
+          await funct();
+
+          res.status(200).send({
+            msg: 'Voter is Verified!',
+          });
+          next();
+        }
+      })
+      .catch(err => {
+        res.json(err);
+        next();
+      });
+  } else {
+    res.status(400).send({
+      msg: 'Wrong phone number or code :(',
+      phonenumber: req.body.phone,
+    });
   }
-
-  // res.status(200).send({
-  //   msg: 'Voter is Verified!',
-  // });
-  next();
-  //   }
-  // })
-  // .catch(err => {
-  //   res.json(err);
-  //   next();
-  // });
-  // } else {
-  //   res.status(400).send({
-  //     msg: 'Wrong phone number or code :(',
-  //     phonenumber: req.body.phone,
-  //   });
-  // }
 });
 
 module.exports = router;
