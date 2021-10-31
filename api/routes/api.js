@@ -39,10 +39,10 @@ router.get('/test/wer', async (req, res, next) => {
 // Send OTP to Voter
 router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
   console.log(req.phone);
-  console.log(req.pinCode);
+  console.log(req.district);
   console.log(req.hasRegistered);
   if (req.hasRegistered === true) {
-    return res.status(400).json({
+    return res.status(200).send({
       msg: 'Voter already registered',
     });
   }
@@ -59,10 +59,12 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
         channel: 'sms',
       })
       .then(data => {
+        console.log(data);
+
         res.status(200).send({
           msg: 'OTP is sent!',
           phonenumber: req.phone,
-          data,
+          district: req.district,
         });
       });
   } else {
