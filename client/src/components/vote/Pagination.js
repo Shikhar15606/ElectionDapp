@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vote } from '../../actions/smartContract';
 
 export default function Pagination({
   data,
@@ -6,6 +7,7 @@ export default function Pagination({
   StatisticsType,
   pageLimit,
   dataLimit,
+  setStep,
 }) {
   const [pages] = useState(Math.round(data.length / dataLimit));
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,33 +46,39 @@ export default function Pagination({
             <tr className='w-full flex-1 justify-around items-center text-center text-sm text-black'>
               <th>Symbol</th>
               <th>Name</th>
-              <th>Party</th>
+              {/* <th>Party</th> */}
               <th>Vote</th>
             </tr>
           </thead>
           <tbody class='bg-white'>
             {getPaginatedData().map((d, idx) => (
               <tr
-                key={d.email}
+                key={toString(d.val)}
                 class='group flex-1 justify-around items-center border-gray-400 text-center whitespace-nowrap h-20 md:h-24 transition duration-300 ease-in-out hover:bg-indigo-500 hover:text-white transform hover:scale-y-110 shadow-md hover:font-bold'
               >
                 <td>
                   <div className='flex flex-1 items-center justify-center'>
                     <img
                       className='h-12 w-12 md:h-16 md:w-16 rounded-full transform group-hover:scale-x-110 ease-in-out duration-300'
-                      src={d.image}
+                      src={d.logoLink}
                       alt=''
                     />
                   </div>
                 </td>
                 <td>{d.name}.</td>
-                <td>{d.party}</td>
+                {/* <td>{d.party}</td> */}
                 <td>
                   <button
                     className='justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                    onClick={e => {
+                    onClick={async e => {
                       e.preventDefault();
-                      console.log('Vote for ', idx + (currentPage - 1) * 10);
+                      console.log('Vote for ', d.val);
+                      const res = await vote(d.val);
+                      if (res == 'Voting has stopped :( or Some other error')
+                        alert('Voting has stopped :( or Some other error');
+                      else {
+                        setStep(3);
+                      }
                     }}
                   >
                     Vote

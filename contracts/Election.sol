@@ -59,7 +59,7 @@ contract Election is Ownable{
     
     function startVoting() external onlyOwner {
         require(phase == 1, "Invalid Phase");
-        votingPeriod = block.timestamp + 1 days;
+        votingPeriod = block.timestamp + 5 minutes;
         changePhase(2);
     }
 

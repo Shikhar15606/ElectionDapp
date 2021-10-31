@@ -27,6 +27,7 @@ const Step2 = props => {
                 StatisticsNumber='200'
                 pageLimit={5}
                 dataLimit={10}
+                setStep={props.setStep}
               />
             </>
           ) : (
