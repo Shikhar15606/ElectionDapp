@@ -134,8 +134,8 @@ const getCandidates = async _id => {
     let voter = await contract.methods.voters(_id).call();
     if (voter.canVote == false) return 'You have already voted or unregistered';
     console.log("voter's district", voter.pinCode);
-    let len = await contract.methods.getCandidateCount(_id).call();
-    console.log('partiesLen', len);
+    let len = await contract.methods.getCandidateCount(voter.pinCode).call();
+    console.log('candidates Len', len);
     let candidates = [];
     for (let i = 0; i < parseInt(len); i++) {
       let res = await contract.methods
