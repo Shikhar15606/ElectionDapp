@@ -151,6 +151,19 @@ const getCandidates = async _id => {
   }
 };
 
+const vote = async _candidateId => {
+  try {
+    const res = await contract.methods
+      .vote(_candidateId)
+      .send({ from: accounts[0] });
+    console.log(res);
+    return 'Success';
+  } catch (err) {
+    console.log(err);
+    return 'Voting has stopped :( or Some other error';
+  }
+};
+
 export {
   setInFile,
   startVoting,
@@ -160,4 +173,5 @@ export {
   createCandidate,
   getPhase,
   getCandidates,
+  vote,
 };
