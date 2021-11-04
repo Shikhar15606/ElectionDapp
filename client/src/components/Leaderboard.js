@@ -4,6 +4,10 @@ import Pagination from './Pagination';
 import { useState, useEffect } from 'react';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import {
+  getCandidates,
+  fetchPoliticalParties2,
+} from '../actions/smartContract';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -24,6 +28,16 @@ export default function Leaderboard() {
   const [error, setError] = useState('');
   const [isPartyData, setIsPartyData] = useState('true');
   const [step, setStep] = useState(0); // 0 for candidate, 1 for party
+  const [search, setSearch] = useState();
+  const [parties, setParties] = useState([]);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      const res = await fetchPoliticalParties2();
+      console.log('dekh le bhai --------------', res);
+      setParties(res);
+    }, 4000);
+  }, []);
 
   const getInitialState = () => {
     return { selectValue: 'Radish' };
@@ -41,69 +55,45 @@ export default function Leaderboard() {
         <div className='flex flex-row flex-nowrap items-center justify-between mx-auto'>
           <div className='flex-initial'>
             <div className='flex items-center'>
-              <Menu as='div' className='relative inline-block text-left'>
-                <Menu.Button className='flex flex-row w-32 md:w-48 px-2 h-12 items-center justify-between rounded-md border border-gray-300 shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2'>
-                  Candidate
-                  <ChevronDownIcon className='h-5 w-5' aria-hidden='true' />
-                </Menu.Button>
-                <Transition
-                  as={Fragment}
-                  enter='transition ease-out duration-100'
-                  enterFrom='transform opacity-0 scale-95'
-                  enterTo='transform opacity-100 scale-100'
-                  leave='transition ease-in duration-75'
-                  leaveFrom='transform opacity-100 scale-100'
-                  leaveTo='transform opacity-0 scale-95'
+              <div className='col-span-6 sm:col-span-3'>
+                <label
+                  htmlFor='country'
+                  className='block text-sm font-medium text-gray-700'
                 >
-                  <Menu.Items className='origin-top-right absolute right-0 w-32 md:w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10'>
-                    <div className='py-1'>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <span
-                            href='#'
-                            className={classNames(
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700',
-                              'block px-2 py-2 text-sm'
-                            )}
-                          >
-                            Party
-                          </span>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <span
-                            href='#'
-                            className={classNames(
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700',
-                              'block px-2 py-2 text-sm'
-                            )}
-                          >
-                            Candidate
-                          </span>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                  Registered Political Party
+                </label>
+                <select
+                  id='country'
+                  name='country'
+                  autoComplete='country-name'
+                  className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+                  value={step}
+                  onChange={e => {
+                    console.log(e.target.value);
+                    setStep(e.target.value);
+                  }}
+                >
+                  <option value={0}>Candidate</option>
+                  <option value={1}>Party</option>
+                </select>
+              </div>
             </div>
           </div>
           <input
             className='w-40 md:w-56 px-2 h-12 rounded-md border border-gray-300 shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2'
-            type='text'
+            type='number'
             placeholder='Search'
+            value={search}
+            onChange={e => {
+              setSearch(e.target.value);
+            }}
           />
         </div>
 
         {data.length > 0 ? (
           <>
             <Pagination
-              data={data}
+              data={parties}
               title='Candidate'
               StatisticsType='Votes'
               StatisticsNumber='200'
