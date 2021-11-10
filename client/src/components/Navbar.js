@@ -2,13 +2,8 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { logout } from '../actions/backend';
-import { useHistory } from 'react-router-dom';
-
-const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: "Voters's Cafe", href: '/voter', current: false },
-  { name: "Admin's Den", href: '/admin', current: false },
-];
+import { useHistory, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -16,6 +11,53 @@ function classNames(...classes) {
 
 const Navbar = props => {
   const history = useHistory();
+  const location = useLocation();
+
+  const [navigation, setNavigation] = useState([
+    { name: 'Home', href: '/', current: false },
+    { name: "Voters's Cafe", href: '/voter', current: false },
+    { name: "Admin's Den", href: '/admin', current: false },
+  ]);
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setNavigation(navigation => {
+        let newNavigation = [...navigation];
+        newNavigation[0].current = true;
+        newNavigation[1].current = false;
+        newNavigation[2].current = false;
+        return newNavigation;
+      });
+    } else if (location.pathname === '/voter') {
+      setNavigation(navigation => {
+        let newNavigation = [...navigation];
+        newNavigation[0].current = false;
+        newNavigation[1].current = true;
+        newNavigation[2].current = false;
+        return newNavigation;
+      });
+    } else if (
+      location.pathname === '/admin' ||
+      location.pathname === '/login'
+    ) {
+      setNavigation(navigation => {
+        let newNavigation = [...navigation];
+        newNavigation[0].current = false;
+        newNavigation[1].current = false;
+        newNavigation[2].current = true;
+        return newNavigation;
+      });
+    } else {
+      setNavigation(navigation => {
+        let newNavigation = [...navigation];
+        newNavigation[0].current = false;
+        newNavigation[1].current = false;
+        newNavigation[2].current = false;
+        return newNavigation;
+      });
+    }
+  }, [location, setNavigation]);
+
   const logoutHandler = async e => {
     e.preventDefault();
     const res = await logout();
