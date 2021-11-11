@@ -30,8 +30,10 @@ contract Election is Ownable{
     uint32[] pinCodes;
     uint public votingPeriod;
     
-    event PoliticalPartyCreated(string _name, string _logoLink);
-    event CandidateCreated(string _name, string _logoLink, int16 _partyId, uint32 _pinCode);
+    // event PoliticalPartyCreated(string _name, string _logoLink);
+    event PoliticalPartyCreated(string _name);
+    // event CandidateCreated(string _name, string _logoLink, int16 _partyId, uint32 _pinCode);
+    event CandidateCreated(string _name);
     event VoterAdded(address indexed _id);
     event Vote(address indexed _id);
 
@@ -66,7 +68,7 @@ contract Election is Ownable{
     function createPoliticalParty(string calldata _name, string calldata _logoLink) external onlyOwner returns(uint) {
         require(phase == 1, "Registration Phase is Over");
         parties.push(PoliticalParty(_name, _logoLink, 0));
-        emit PoliticalPartyCreated(_name, _logoLink);
+        emit PoliticalPartyCreated(_name);
     }
     
     function addCandidate(string calldata _name, string calldata _logoLink, int16 _partyId, uint32 _pinCode) external onlyOwner {
@@ -77,11 +79,11 @@ contract Election is Ownable{
         }
         if(_partyId != -1){
             districtToCandidates[_pinCode].push(Candidate(_name, parties[uint16(_partyId)].logoLink, _partyId, 0));
-            emit CandidateCreated(_name, parties[uint16(_partyId)].logoLink, _partyId, _pinCode);
+            emit CandidateCreated(_name);
         }
         else{
             districtToCandidates[_pinCode].push(Candidate(_name, _logoLink, _partyId, 0));
-            emit CandidateCreated(_name, _logoLink, _partyId, _pinCode);
+            emit CandidateCreated(_name);
         }
     }
     
