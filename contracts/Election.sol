@@ -8,7 +8,6 @@ contract Election is Ownable{
     struct PoliticalParty {
         string name;
         string logoLink;
-        uint16 seats;
     }
     
     struct Candidate {
@@ -30,12 +29,11 @@ contract Election is Ownable{
     uint32[] pinCodes;
     uint public votingPeriod;
     
-    // event PoliticalPartyCreated(string _name, string _logoLink);
     event PoliticalPartyCreated(string _name);
-    // event CandidateCreated(string _name, string _logoLink, int16 _partyId, uint32 _pinCode);
     event CandidateCreated(string _name);
     event VoterAdded(address indexed _id);
     event Vote(address indexed _id);
+    event Result(uint16 _partyId, uint16 _seats);
 
     modifier beforeEndTime() {
         require(phase == 2 && block.timestamp < votingPeriod, "Invalid Phase");
@@ -67,7 +65,7 @@ contract Election is Ownable{
 
     function createPoliticalParty(string calldata _name, string calldata _logoLink) external onlyOwner returns(uint) {
         require(phase == 1, "Registration Phase is Over");
-        parties.push(PoliticalParty(_name, _logoLink, 0));
+        parties.push(PoliticalParty(_name, _logoLink));
         emit PoliticalPartyCreated(_name);
     }
     
@@ -106,6 +104,7 @@ contract Election is Ownable{
     
     function computeResult() external onlyOwner afterEndTime{
         require(phase == 2, "Invalid Phase");
+        uint16[] memory partyToSeats;
         for(uint16 i=0 ; i<pinCodes.length ; i++){
             uint32 currPinCode = pinCodes[i];
             Candidate memory winner = districtToCandidates[currPinCode][0];
@@ -115,8 +114,11 @@ contract Election is Ownable{
                 }
             }
             if(winner.partyId!=-1){
-                parties[uint16(winner.partyId)].seats++;
+                partyToSeats[uint16(winner.partyId)]++;
             }
+        }
+        for(uint16 i = 0; i<parties.length; i++){
+            emit Result(i, partyToSeats[i]);
         }
         changePhase(3);
     }
