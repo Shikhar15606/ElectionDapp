@@ -5,6 +5,7 @@ const setInFile = (_web3, _accounts, _contract) => {
   contract = _contract;
   console.log('accounts ', accounts);
 };
+
 const startVoting = async () => {
   try {
     let phase = await contract.methods.phase().call();
@@ -60,7 +61,6 @@ const getPhase = async _contract => {
       console.log('contract is not set');
       return;
     }
-    console.log('_contract => ' + _contract);
     console.log('contract is set');
     const phase = await _contract.methods.phase().call();
     console.log(phase);
@@ -78,23 +78,6 @@ const fetchPoliticalParties = async _contract => {
     let parties = [{ name: 'Individual', val: -1 }];
     for (let i = 0; i < parseInt(partiesLen); i++) {
       let res = await _contract.methods.parties(i).call();
-      parties.push({ ...res, val: i });
-    }
-    console.log('parties', parties);
-    return parties;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
-};
-const fetchPoliticalParties2 = async () => {
-  try {
-    console.log('_contract', contract);
-    let partiesLen = await contract.methods.getParties().call();
-    console.log('partiesLen', partiesLen);
-    let parties = [];
-    for (let i = 0; i < parseInt(partiesLen); i++) {
-      let res = await contract.methods.parties(i).call();
       parties.push({ ...res, val: i });
     }
     console.log('parties', parties);
@@ -187,7 +170,6 @@ export {
   startVoting,
   declareResult,
   fetchPoliticalParties,
-  fetchPoliticalParties2,
   createParty,
   createCandidate,
   getPhase,
