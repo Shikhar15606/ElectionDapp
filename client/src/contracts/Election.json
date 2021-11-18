@@ -13408,15 +13408,93 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {
-    "5777": {
+    "4": {
       "events": {},
       "links": {},
-      "address": "0x18d957F494d5C7bcFDA592AAA459E21D05C1bafa",
-      "transactionHash": "0x3727ee737e29ee0766d582426670d6b6ed7458c801a6ede71f78659625cbf335"
+      "address": "0x324c56b9770032500fc743EACA2E2e852941feA4",
+      "transactionHash": "0x6daa5b5036a2e4ee2abf597f1ef641b8dc7baa95267c67a3c8c426057b0d4c79"
+    },
+    "5777": {
+      "events": {
+        "0xe7bd3f30f664c931bdf34728d01db1970122a3c7c0ed1aacb93584f690b116f3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_name",
+              "type": "string"
+            }
+          ],
+          "name": "CandidateCreated",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x81886254f7245ab46bb36841c3b94f17fb233eb99f6bc12e435ae0b6bce44506": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "_name",
+              "type": "string"
+            }
+          ],
+          "name": "PoliticalPartyCreated",
+          "type": "event"
+        },
+        "0xf5b08346e1e6b0b55d07ce94e81fcb198d47fbbecfea3b9a476f454c86761ec4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "_id",
+              "type": "address"
+            }
+          ],
+          "name": "Vote",
+          "type": "event"
+        },
+        "0xa636f4a11e2d3ba7f89d042ecb0a6b886716e98cd49d8fd876ee0f73bced42b8": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "_id",
+              "type": "address"
+            }
+          ],
+          "name": "VoterAdded",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xa8bfE976BcBE76602733D2Ba03e228610109F44b",
+      "transactionHash": "0x16c84622033244e3ed342b8710f4a65660ba004dbbe1b5ef48e5d546e9db56e4"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-18T16:01:09.990Z",
+  "updatedAt": "2021-11-18T18:36:16.270Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {

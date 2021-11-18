@@ -11,6 +11,9 @@ export default function Leaderboard(props) {
   const fetchHandler = useCallback(async () => {
     const res = await fetchPoliticalParties(props.contract);
     console.log('dekh le bhai --------------', res);
+    res.sort((a, b) => {
+      return b.seats - a.seats;
+    });
     setParties(res);
   }, [props.contract]);
 

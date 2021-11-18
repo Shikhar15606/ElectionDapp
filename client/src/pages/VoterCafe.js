@@ -27,6 +27,8 @@ const VoterCafe = props => {
       return <Vote />;
     case 3:
       return <MessageComponent msg='Results will be declared soon ...' />;
+    // case 3:
+    //   return <Leaderboard contract={props.contract} />;
     case 4:
       return <Leaderboard contract={props.contract} />;
     default:
