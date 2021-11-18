@@ -5,6 +5,7 @@ const setInFile = (_web3, _accounts, _contract) => {
   contract = _contract;
   console.log('accounts ', accounts);
 };
+
 const startVoting = async () => {
   try {
     let phase = await contract.methods.phase().call();
@@ -60,7 +61,6 @@ const getPhase = async _contract => {
       console.log('contract is not set');
       return;
     }
-    console.log('_contract => ' + _contract);
     console.log('contract is set');
     const phase = await _contract.methods.phase().call();
     console.log(phase);
@@ -87,26 +87,10 @@ const fetchPoliticalParties = async _contract => {
     return [];
   }
 };
-const fetchPoliticalParties2 = async () => {
-  try {
-    console.log('_contract', contract);
-    let partiesLen = await contract.methods.getParties().call();
-    console.log('partiesLen', partiesLen);
-    let parties = [];
-    for (let i = 0; i < parseInt(partiesLen); i++) {
-      let res = await contract.methods.parties(i).call();
-      parties.push({ ...res, val: i });
-    }
-    console.log('parties', parties);
-    return parties;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
-};
 
 const createParty = async (_name, _logoLink) => {
   console.log('In Crete Party', _name, _logoLink);
+  if (_logoLink == null) _logoLink = 'https://img.icons8.com/color/2x/user.png';
   try {
     let phase = await contract.methods.phase().call();
     if (phase != 1) return 'Invalid Phase';
@@ -186,7 +170,6 @@ export {
   startVoting,
   declareResult,
   fetchPoliticalParties,
-  fetchPoliticalParties2,
   createParty,
   createCandidate,
   getPhase,
