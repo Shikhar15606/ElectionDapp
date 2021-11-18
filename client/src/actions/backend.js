@@ -4,7 +4,11 @@ axios.defaults.withCredentials = true;
 
 const isAdmin = async () => {
   try {
-    const res = await axios.get(`http://localhost:5000/auth/isadmin`);
+    console.log('API', process.env.REACT_APP_API_URL);
+    console.log('Blockchain', process.env.REACT_APP_BLOCKCHAIN_URL);
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/auth/isadmin`
+    );
     console.log('Auth res: ', res);
     return res.data.isAdmin;
   } catch (err) {
@@ -16,10 +20,13 @@ const isAdmin = async () => {
 const login = async (email, password) => {
   console.log(email, password);
   try {
-    const res = await axios.post('http://localhost:5000/auth/login', {
-      email: email,
-      password: password,
-    });
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/auth/login`,
+      {
+        email: email,
+        password: password,
+      }
+    );
     console.log(res);
     return res.data;
   } catch (err) {
@@ -30,7 +37,7 @@ const login = async (email, password) => {
 
 const logout = async () => {
   try {
-    const res = await axios.get('http://localhost:5000/auth/logout');
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/logout`);
     console.log(res);
     return res.data;
   } catch (err) {
@@ -41,9 +48,12 @@ const logout = async () => {
 
 const sendOTP = async voterID => {
   try {
-    const res = await axios.get('http://localhost:5000/api/regVoter/sendOTP', {
-      params: { voterID: voterID },
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/regVoter/sendOTP`,
+      {
+        params: { voterID: voterID },
+      }
+    );
     console.log(res);
     return res.data;
   } catch (err) {
@@ -60,7 +70,7 @@ const verifyOTP = async (phone, code, voterID, VoterEthID, district) => {
   console.log('code => ' + district);
   try {
     const res = await axios.post(
-      'http://localhost:5000/api/regVoter/verifyOTP',
+      `${process.env.REACT_APP_API_URL}/api/regVoter/verifyOTP`,
       {
         phone: phone,
         code: code,

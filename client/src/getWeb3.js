@@ -23,10 +23,10 @@ const getWeb3 = () =>
         console.log('Injected web3 detected.');
         resolve(web3);
       }
-      // Fallback to localhost; use dev console port by default...
+      // Fallback to Blockchain URL; use dev console port by default...
       else {
         const provider = new Web3.providers.HttpProvider(
-          'http://127.0.0.1:8545'
+          process.env.BLOCKCHAIN_URL
         );
         const web3 = new Web3(provider);
         console.log('No web3 instance injected, using Local web3.');

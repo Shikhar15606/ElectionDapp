@@ -107,6 +107,7 @@ const fetchPoliticalParties2 = async () => {
 
 const createParty = async (_name, _logoLink) => {
   console.log('In Crete Party', _name, _logoLink);
+  if (_logoLink == null) _logoLink = 'https://img.icons8.com/color/2x/user.png';
   try {
     let phase = await contract.methods.phase().call();
     if (phase != 1) return 'Invalid Phase';
