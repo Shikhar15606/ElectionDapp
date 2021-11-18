@@ -2,7 +2,7 @@ const path = require('path');
 require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const mnemonic = process.env.MNEMONIC;
-const url = process.env.BLOCKCHAINURL;
+const url = process.env.PROD_BLOCKCHAIN_URL;
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -18,11 +18,11 @@ module.exports = {
       port: 7545,
       network_id: '*', // Match any network id
     },
-    rinkeby: {
+    ropsten: {
       provider: function () {
         return new HDWalletProvider(mnemonic, url);
       },
-      network_id: 4,
+      network_id: 3,
     },
   },
 };

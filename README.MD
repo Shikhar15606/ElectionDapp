@@ -39,3 +39,15 @@ $ yarn dev
 ```
 deploy --reset
 ```
+
+- Publishing the smart contract on the ropsten test network
+
+```
+truffle deploy --reset --network=ropsten
+```
+
+### Useful Links
+
+[Get free Ether for Ropsten Network](https://faucet.ropsten.be/)
+
+[Admin's Account on Ropsten](https://ropsten.etherscan.io/address/0x3cfa8d782007a5e298e3d16faffcab25883cca68)
