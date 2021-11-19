@@ -22,9 +22,16 @@ exports.login = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie('accessToken', {
-    domain: process.env.API_URL.split('/')[2].split(':')[0],
-    path: '/',
+  // res.clearCookie('accessToken', {
+  //   domain: process.env.API_URL.split('/')[2].split(':')[0],
+  //   path: '/',
+  // });
+  res.cookie('accessToken', '', {
+    maxAge: 0,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+    secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
+    httpOnly: true,
+    signed: true,
   });
   res.status(200).json({
     msg: 'Logout Success',
