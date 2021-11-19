@@ -8,10 +8,11 @@ exports.login = (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: '1d' }
   );
+  console.log(process.env.FRONTEND_URL.split('/')[2]);
   res.cookie('accessToken', accessToken, {
     maxAge: 24 * 3600000,
-    secure: true,
-    domain: FRONTEND_URL.split('/')[2],
+    secure: process.env.NODE_ENV == 'development' ? false : true,
+    domain: process.env.FRONTEND_URL.split('/')[2],
     httpOnly: true,
     signed: true,
   });
