@@ -11,8 +11,8 @@ exports.login = (req, res) => {
   console.log(process.env.FRONTEND_URL.split('/')[2]);
   res.cookie('accessToken', accessToken, {
     maxAge: 24 * 3600000,
-    secure: process.env.NODE_ENV == 'development' ? false : true,
-    domain: process.env.FRONTEND_URL.split('/')[2],
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+    secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
     httpOnly: true,
     signed: true,
   });
