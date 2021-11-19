@@ -60,7 +60,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use('/dev', require('./routes/dev'));
 }
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Server Running at ${port}`);

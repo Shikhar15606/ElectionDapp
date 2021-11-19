@@ -23,7 +23,7 @@ exports.login = (req, res) => {
 
 exports.logout = (req, res) => {
   res.clearCookie('accessToken', {
-    domain: process.env.FRONTEND_URL.split('/')[2].split(':')[0],
+    domain: process.env.API_URL.split('/')[2].split(':')[0],
     path: '/',
   });
   res.status(200).json({
