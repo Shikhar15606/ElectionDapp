@@ -8,9 +8,11 @@ exports.login = (req, res) => {
     process.env.JWT_SECRET,
     { expiresIn: '1d' }
   );
+  console.log(process.env.FRONTEND_URL.split('/')[2]);
   res.cookie('accessToken', accessToken, {
     maxAge: 24 * 3600000,
-    // secure: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+    secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
     httpOnly: true,
     signed: true,
   });
@@ -20,7 +22,17 @@ exports.login = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie('accessToken');
+  // res.clearCookie('accessToken', {
+  //   domain: process.env.API_URL.split('/')[2].split(':')[0],
+  //   path: '/',
+  // });
+  res.cookie('accessToken', '', {
+    maxAge: 0,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+    secure: process.env.NODE_ENV === 'production', // must be true if sameSite='none'
+    httpOnly: true,
+    signed: true,
+  });
   res.status(200).json({
     msg: 'Logout Success',
   });

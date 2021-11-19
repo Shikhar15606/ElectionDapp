@@ -47,6 +47,7 @@ app.use(
     credentials: true,
   })
 );
+app.set('trust proxy', 1);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -59,7 +60,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use('/dev', require('./routes/dev'));
 }
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Server Running at ${port}`);
