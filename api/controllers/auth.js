@@ -10,8 +10,9 @@ exports.login = (req, res) => {
   );
   res.cookie('accessToken', accessToken, {
     maxAge: 24 * 3600000,
-    // secure: true,
-    // httpOnly: true,
+    secure: true,
+    domain: FRONTEND_URL.split('/')[2],
+    httpOnly: true,
     signed: true,
   });
   res.status(200).json({
