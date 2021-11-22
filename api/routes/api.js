@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Voters = require('../models/voters');
+const Stats = require('../models/stats');
 const Provider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
 const { fetchVoter } = require('../middlewares/auth');
@@ -112,6 +113,24 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
       phonenumber: req.body.phone,
     });
   }
+});
+
+// fetch stats
+router.get('/fetchStats', async (req, res) => {
+  console.log(process.env.STATS_DOC_ID);
+  Stats.findById(process.env.STATS_DOC_ID).exec(async (error, stats) => {
+    if (error) {
+      return res.status(400).json(error);
+    }
+    if (stats) {
+      return res.status(200).json(stats);
+    } else {
+      // no data found for given Stats ID
+      return res.status(400).json({
+        msg: 'Invalid Stats ID in env',
+      });
+    }
+  });
 });
 
 module.exports = router;
