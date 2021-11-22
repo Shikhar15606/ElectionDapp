@@ -3,6 +3,7 @@ import Vote from '../components/Vote';
 import Leaderboard from '../components/Leaderboard';
 import MessageComponent from '../components/Message';
 import { getPhase } from '../actions/smartContract';
+import VoterRegistration from '../components/VoterRegistration';
 
 const VoterCafe = props => {
   const [phase, setPhase] = useState(1);
@@ -18,10 +19,10 @@ const VoterCafe = props => {
   }, [fetchData]);
 
   switch (phase) {
-    // case 1:
-    //   return <VoterRegistration />;
     case 1:
-      return <Leaderboard contract={props.contract} />;
+      return <VoterRegistration />;
+    // case 1:
+    //   return <Leaderboard contract={props.contract} />;
     case 2:
       return <Vote />;
     case 3:
