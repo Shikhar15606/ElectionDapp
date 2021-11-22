@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha api/tests",
     "dev": "concurrently \"nodemon ./api/app.js\" \"cd client && npm start\"",
     "frontend": "cd client && npm start",
     "backend": "nodemon ./api/app.js",
@@ -28,8 +28,11 @@
     }
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "concurrently": "^6.2.1",
     "husky": "4.3.8",
+    "mocha": "^9.1.3",
     "nodemon": "^2.0.12",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0"

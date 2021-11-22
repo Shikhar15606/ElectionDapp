@@ -13790,12 +13790,13 @@
         }
       },
       "links": {},
-      "address": "0x2CDA3f015B05f3CfEe7A31a715be221E764A71A4",
-      "transactionHash": "0xf0abf7ebae5d6be1d99029cc1c45afcc619d2c19f627ffa4cb44011fd922670a"
+      "address": "0xa8bfE976BcBE76602733D2Ba03e228610109F44b",
+      "transactionHash": "0xc2417beebcb994c2a7ed50f0f99e8b66904efc05b2a7bc9cbd48ac42fea0ea99"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-22T15:55:53.765Z",
+  "updatedAt": "2021-11-22T19:52:31.909Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {
       "isOwner()": {
