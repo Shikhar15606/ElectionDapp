@@ -7,9 +7,9 @@ chai.use(chaiHttp);
 
 describe('Testing Athentication', () => {
   // Test the admin login
+  let adminAgent = chai.request.agent(server);
   it('POST /auth/login with correct username/password', done => {
-    chai
-      .request(server)
+    adminAgent
       .post('/auth/login')
       .send({
         email: process.env.ADMIN_EMAIL,
@@ -54,5 +54,44 @@ describe('Testing Athentication', () => {
           .equals('Invalid email/password combination');
         done();
       });
+  });
+
+  it('GET /auth/isAdmin with valid cookie', done => {
+    adminAgent.get('/auth/isAdmin').end((err, response) => {
+      response.should.have.status(200);
+      response.body.should.be.a('object');
+      response.body.should.have.property('isAdmin').equals(true);
+      done();
+    });
+  });
+
+  it('GET /auth/isAdmin with no cookie', done => {
+    chai
+      .request(server)
+      .get('/auth/isAdmin')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.body.should.be.a('object');
+        response.body.should.have.property('isAdmin').equals(false);
+        done();
+      });
+  });
+
+  it('GET /auth/logout Logging out admin', done => {
+    adminAgent.get('/auth/logout').end((err, response) => {
+      response.should.have.status(200);
+      response.body.should.be.a('object');
+      response.body.should.have.property('msg').equals('Logout Success');
+      done();
+    });
+  });
+
+  it('GET /auth/isAdmin with expired cookie', done => {
+    adminAgent.get('/auth/isAdmin').end((err, response) => {
+      response.should.have.status(200);
+      response.body.should.be.a('object');
+      response.body.should.have.property('isAdmin').equals(false);
+      done();
+    });
   });
 });
