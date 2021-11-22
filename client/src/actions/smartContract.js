@@ -83,17 +83,38 @@ const fetchPoliticalParties = async _contract => {
   try {
     console.log('_contract', _contract);
     let partiesLen = await _contract.methods.getParties().call();
+    let individualSeats = await _contract.methods.getDistrictCount().call();
     console.log('partiesLen', partiesLen);
-    let parties = [{ name: 'Individual', val: -1 }];
+    let parties = [];
     for (let i = 0; i < parseInt(partiesLen); i++) {
       let res = await _contract.methods.parties(i).call();
+      individualSeats -= res.seats;
       parties.push({ ...res, val: i });
     }
+    const individual = { name: 'Individual', val: -1, seats: individualSeats };
+    parties.push(individual);
     console.log('parties', parties);
     return parties;
   } catch (err) {
     console.log(err);
     return [];
+  }
+};
+
+const fetchCandidatesResult = async _pinCode => {
+  try {
+    let len = await contract.methods.getCandidateCount(_pinCode).call();
+    console.log('candidates Len', len);
+    let candidates = [];
+    for (let i = 0; i < parseInt(len); i++) {
+      let res = await contract.methods.districtToCandidates(_pinCode, i).call();
+      candidates.push({ ...res, val: i });
+    }
+    console.log('candidates', candidates);
+    return candidates;
+  } catch (err) {
+    console.log(err);
+    return 'Some Error Occured';
   }
 };
 
@@ -184,4 +205,5 @@ export {
   getPhase,
   getCandidates,
   vote,
+  fetchCandidatesResult,
 };

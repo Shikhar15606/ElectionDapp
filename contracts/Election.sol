@@ -55,6 +55,10 @@ contract Election is Ownable{
         return districtToCandidates[district].length;
     }
 
+    function getDistrictCount() public view returns (uint) {
+        return pinCodes.length;
+    }
+
     function changePhase(uint8 _phase) private {
         phase = _phase;
     }

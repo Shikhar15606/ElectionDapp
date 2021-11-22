@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Pagination.css';
 
-export default function Pagination({
-  data,
-  title,
-  StatisticsType,
-  StatisticsNumber,
-  pageLimit,
-  dataLimit,
-}) {
+export default function Pagination({ data, title, pageLimit, dataLimit }) {
   const [pages] = useState(Math.round(data.length / dataLimit));
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,10 +37,10 @@ export default function Pagination({
         <table className='flext w-full flex-1'>
           <thead className='bg-indigo-200  w-full flex-1 h-16'>
             <tr className='w-full flex-1 justify-around items-center text-center text-sm text-black'>
-              <th>Party Id</th>
+              <th>Id</th>
               <th>Symbol</th>
-              <th>Party Name</th>
-              <th>Seats</th>
+              <th>Name</th>
+              <th>{title}</th>
             </tr>
           </thead>
           <tbody class='bg-white'>
@@ -69,7 +62,7 @@ export default function Pagination({
                 <td>{d.name}</td>
                 <td>
                   <span className='px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-green-100 text-green-800'>
-                    {d.seats}
+                    {title === 'Seats' ? d.seats : d.votes}
                   </span>
                 </td>
               </tr>

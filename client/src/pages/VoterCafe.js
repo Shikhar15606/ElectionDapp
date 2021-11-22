@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import Vote from '../components/Vote';
-import VoterRegistration from '../components/VoterRegistration';
 import Leaderboard from '../components/Leaderboard';
 import MessageComponent from '../components/Message';
 import { getPhase } from '../actions/smartContract';
+import VoterRegistration from '../components/VoterRegistration';
 
 const VoterCafe = props => {
   const [phase, setPhase] = useState(1);
