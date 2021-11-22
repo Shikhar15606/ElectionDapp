@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha api/tests",
+    "test": "mocha api/tests --timeout 10000",
     "dev": "concurrently \"nodemon ./api/app.js\" \"cd client && npm start\"",
     "frontend": "cd client && npm start",
     "backend": "nodemon ./api/app.js",
