@@ -11,10 +11,13 @@ export default function Leaderboard(props) {
   const [search, setSearch] = useState('');
   const [parties, setParties] = useState([]);
   const [candidates, setCandidates] = useState([]);
+  const [individualSeats, setIndividualSeats] = useState();
 
   const fetchHandler = useCallback(async () => {
     const res = await fetchPoliticalParties(props.contract);
     console.log('dekh le bhai --------------', res);
+    // setting individual seats
+    if (res.length > 0) setIndividualSeats(res.pop().seats);
     res.sort((a, b) => {
       return b.seats - a.seats;
     });
@@ -104,6 +107,11 @@ export default function Leaderboard(props) {
               pageLimit={5}
               dataLimit={10}
             />
+            <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>
+              {`and ${individualSeats} seat${
+                individualSeats > 1 ? 's' : ''
+              } won by individual candidates`}
+            </h1>
           </>
         ) : (
           <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>

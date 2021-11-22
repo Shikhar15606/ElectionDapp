@@ -83,12 +83,16 @@ const fetchPoliticalParties = async _contract => {
   try {
     console.log('_contract', _contract);
     let partiesLen = await _contract.methods.getParties().call();
+    let individualSeats = await _contract.methods.getDistrictCount().call();
     console.log('partiesLen', partiesLen);
-    let parties = [{ name: 'Individual', val: -1 }];
+    let parties = [];
     for (let i = 0; i < parseInt(partiesLen); i++) {
       let res = await _contract.methods.parties(i).call();
+      individualSeats -= res.seats;
       parties.push({ ...res, val: i });
     }
+    const individual = { name: 'Individual', val: -1, seats: individualSeats };
+    parties.push(individual);
     console.log('parties', parties);
     return parties;
   } catch (err) {
