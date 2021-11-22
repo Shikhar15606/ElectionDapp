@@ -20,7 +20,7 @@ export default function AdminForms(props) {
   const [candidatelName, setCandidatelName] = useState();
   const [candidatePin, setCandidatePin] = useState();
   const [candidateParty, setCandidateParty] = useState(-1);
-  const [candidateLogoLink, setCandidateLogoLink] = useState('');
+  const [candidateLogoLink, setCandidateLogoLink] = useState();
   const [imageSelected2, setImageSelected2] = useState();
 
   const createPartyHandler = async e => {
@@ -29,19 +29,30 @@ export default function AdminForms(props) {
     console.log('Setting : ', msg);
     await fetchHandler();
     props.setMessage(msg);
+    // clear all the input
+    setlogoLink('');
+    setPartyName('');
+    setImageSelected('');
   };
 
   const createCandidateHandler = async e => {
     e.preventDefault();
     const msg = await createCandidate(
       candidatefName + ' ' + candidatelName,
-      logoLink,
+      candidateLogoLink,
       candidatePin,
       candidateParty
     );
     console.log('Setting : ', msg);
     await fetchHandler();
     props.setMessage(msg);
+    // clear all input
+    setCandidatefName('');
+    setCandidatelName('');
+    setCandidatePin('');
+    setCandidateParty(-1);
+    setCandidateLogoLink('');
+    setImageSelected2('');
   };
 
   const uploadImage = () => {
@@ -192,7 +203,7 @@ export default function AdminForms(props) {
                               type='file'
                               className='sr-only'
                               onChange={event => {
-                                setImageSelected2(event.target.files[0]);
+                                setImageSelected(event.target.files[0]);
                               }}
                             />
                           </label>
@@ -378,13 +389,13 @@ export default function AdminForms(props) {
                           </svg>
                           <div className='flex text-sm text-gray-600'>
                             <label
-                              htmlFor='file-upload'
+                              htmlFor='file-upload2'
                               className='relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'
                             >
                               <span>Choose a File</span>
                               <input
-                                id='file-upload'
-                                name='file-upload'
+                                id='file-upload2'
+                                name='file-upload2'
                                 type='file'
                                 className='sr-only'
                                 onChange={event => {
