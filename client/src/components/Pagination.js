@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Pagination.css';
 
 export default function Pagination({ data, title, pageLimit, dataLimit }) {
@@ -62,7 +62,7 @@ export default function Pagination({ data, title, pageLimit, dataLimit }) {
                 <td>{d.name}</td>
                 <td>
                   <span className='px-2 inline-flex text-md leading-5 font-semibold rounded-full bg-green-100 text-green-800'>
-                    {d.seats}
+                    {title === 'Seats' ? d.seats : d.votes}
                   </span>
                 </td>
               </tr>

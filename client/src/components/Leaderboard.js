@@ -1,6 +1,9 @@
 import Pagination from './Pagination';
 import { useState, useEffect, useCallback } from 'react';
-import { fetchPoliticalParties } from '../actions/smartContract';
+import {
+  fetchPoliticalParties,
+  fetchCandidatesResult,
+} from '../actions/smartContract';
 
 export default function Leaderboard(props) {
   const [error, setError] = useState('');
@@ -16,8 +19,19 @@ export default function Leaderboard(props) {
       return b.seats - a.seats;
     });
     setParties(res);
-    setError('');
   }, [props.contract]);
+
+  const fetchDistrictwiseResult = useCallback(async () => {
+    const res = await fetchCandidatesResult(parseInt(search));
+    console.log('Fetched ->', res);
+    res.sort((a, b) => {
+      return b.votes - a.votes;
+    });
+    if (res.length === 0) {
+      setError('No election conducted for this place');
+    }
+    setCandidates(res);
+  }, [setCandidates, setError, search]);
 
   useEffect(() => {
     fetchHandler();
@@ -25,10 +39,11 @@ export default function Leaderboard(props) {
 
   useEffect(() => {
     if (parseInt(search) >= 100000 && parseInt(search) <= 999999) {
+      fetchDistrictwiseResult();
     } else {
       setError('Invalid Pincode');
     }
-  }, [search, setError]);
+  }, [search, setError, fetchDistrictwiseResult]);
 
   return (
     <div class='p-2 md:p-8'>
@@ -77,7 +92,9 @@ export default function Leaderboard(props) {
               />
             </>
           ) : (
-            <h1>{error ? error : 'Enter a valid Pincode to see result'}</h1>
+            <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>
+              {error ? error : 'Enter a valid Pincode to see result'}
+            </h1>
           )
         ) : parties.length > 0 ? (
           <>
@@ -89,7 +106,9 @@ export default function Leaderboard(props) {
             />
           </>
         ) : (
-          <h1>No data to display</h1>
+          <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>
+            No data to display
+          </h1>
         )}
       </div>
     </div>

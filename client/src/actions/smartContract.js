@@ -97,6 +97,23 @@ const fetchPoliticalParties = async _contract => {
   }
 };
 
+const fetchCandidatesResult = async _pinCode => {
+  try {
+    let len = await contract.methods.getCandidateCount(_pinCode).call();
+    console.log('candidates Len', len);
+    let candidates = [];
+    for (let i = 0; i < parseInt(len); i++) {
+      let res = await contract.methods.districtToCandidates(_pinCode, i).call();
+      candidates.push({ ...res, val: i });
+    }
+    console.log('candidates', candidates);
+    return candidates;
+  } catch (err) {
+    console.log(err);
+    return 'Some Error Occured';
+  }
+};
+
 const createParty = async (_name, _logoLink) => {
   console.log('In Crete Party', _name, _logoLink);
   if (_logoLink == null) _logoLink = 'https://img.icons8.com/color/2x/user.png';
@@ -184,4 +201,5 @@ export {
   getPhase,
   getCandidates,
   vote,
+  fetchCandidatesResult,
 };
