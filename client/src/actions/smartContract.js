@@ -62,8 +62,17 @@ const getPhase = async _contract => {
       return;
     }
     console.log('contract is set');
-    const phase = await _contract.methods.phase().call();
+    let phase = await _contract.methods.phase().call();
     console.log(phase);
+    console.log(typeof phase);
+    if (parseInt(phase) === 2) {
+      let endTime = await _contract.methods.votingPeriod().call();
+      if (endTime * 1000 <= new Date().getTime()) {
+        phase = 3;
+      }
+    } else if (parseInt(phase) === 3) {
+      phase = 4;
+    }
     return phase;
   } catch (err) {
     console.log(err);
