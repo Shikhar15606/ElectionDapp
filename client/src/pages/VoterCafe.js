@@ -19,10 +19,10 @@ const VoterCafe = props => {
   }, [fetchData]);
 
   switch (phase) {
-    case 1:
-      return <VoterRegistration />;
     // case 1:
-    //   return <Leaderboard contract={props.contract} />;
+    //   return <VoterRegistration />;
+    case 1:
+      return <Leaderboard contract={props.contract} />;
     case 2:
       return <Vote />;
     case 3:
