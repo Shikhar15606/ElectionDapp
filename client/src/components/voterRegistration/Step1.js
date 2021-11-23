@@ -14,7 +14,11 @@ const Step1 = props => {
     try {
       const res = await sendOTP(props.voterId);
       console.log(res);
-      setMessage(res.msg);
+      if (res.msg === 'OTP is sent!') {
+        props.onSendOTP(res.district, res.phonenumber);
+      } else {
+        setMessage(res.msg);
+      }
     } catch (err) {
       console.log(err);
       setMessage('Some Error Occured');

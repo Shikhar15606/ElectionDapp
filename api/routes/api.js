@@ -93,7 +93,9 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
               { voterID: req.body.voterID },
               { $set: { hasRegistered: true } }
             );
-            res.status(200).json(receipt);
+            res.status(200).json({
+              msg: 'Woohoo! Registration Successful :)',
+            });
           } catch (err) {
             console.log(err);
             res.status(400).json(err);
