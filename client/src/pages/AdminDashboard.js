@@ -2,34 +2,44 @@ import React, { useState } from 'react';
 import { startVoting, declareResult } from '../actions/smartContract';
 import AdminForms from '../components/AdminForms';
 import { SpeakerphoneIcon, XIcon } from '@heroicons/react/outline';
+import LoadingComponent from '../components/Loading';
+
 const AdminDashboard = props => {
   if (!props.contract) {
     console.log('Contract Initialized in Admin Dashboard');
   }
-  const [message, setMessage] = useState(false);
+
+  const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const startVoteHandler = async e => {
     e.preventDefault();
+    setIsLoading(true);
     const msg = await startVoting();
-    console.log('Setting : ', msg);
     setMessage(msg);
+    setIsLoading(false);
   };
   const declareResultHandler = async e => {
     e.preventDefault();
+    setIsLoading(true);
     const msg = await declareResult();
-    console.log('Setting : ', msg);
     setMessage(msg);
+    setIsLoading(false);
   };
 
   const closeMessage = async e => {
     e.preventDefault();
-    console.log('Hello Hello');
-    setMessage(false);
+    setMessage();
   };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
   return (
-    <>
-      <div className='flex-grow p-3'>
-        {message !== false ? (
+    <div className='bg-gray-50'>
+      <div className='flex-grow p-3 max-w-7xl mx-auto shadow-2xl'>
+        {message ? (
           <div className='bg-indigo-600 my-3 rounded-lg'>
             <div className='max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8'>
               <div className='flex items-center justify-between flex-wrap'>
@@ -81,13 +91,14 @@ const AdminDashboard = props => {
             Declare Election Result
           </button>
         </div>
+        <AdminForms
+          contract={props.contract}
+          message={message}
+          setMessage={setMessage}
+          setIsLoading={setIsLoading}
+        />
       </div>
-      <AdminForms
-        contract={props.contract}
-        message={message}
-        setMessage={setMessage}
-      />
-    </>
+    </div>
   );
 };
 
