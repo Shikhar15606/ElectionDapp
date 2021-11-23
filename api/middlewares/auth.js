@@ -47,7 +47,7 @@ exports.fetchVoter = async (req, res, next) => {
       next();
     } else {
       // no data found for given VoterID
-      return res.status(401).json({
+      return res.status(200).json({
         msg: 'Invalid VoterID',
       });
     }
