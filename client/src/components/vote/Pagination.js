@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { vote } from '../../actions/smartContract';
+import React, { useState } from 'react';
 
 export default function Pagination({
   data,
-  title,
-  StatisticsType,
   pageLimit,
   dataLimit,
-  setStep,
+  voteHandler,
 }) {
   const [pages] = useState(Math.round(data.length / dataLimit));
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,7 +43,6 @@ export default function Pagination({
             <tr className='w-full flex-1 justify-around items-center text-center text-sm text-black'>
               <th>Symbol</th>
               <th>Name</th>
-              {/* <th>Party</th> */}
               <th>Vote</th>
             </tr>
           </thead>
@@ -66,20 +62,10 @@ export default function Pagination({
                   </div>
                 </td>
                 <td>{d.name}.</td>
-                {/* <td>{d.party}</td> */}
                 <td>
                   <button
                     className='justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                    onClick={async e => {
-                      e.preventDefault();
-                      console.log('Vote for ', d.val);
-                      const res = await vote(d.val);
-                      if (res == 'Voting has stopped :( or Some other error')
-                        alert('Voting has stopped :( or Some other error');
-                      else {
-                        setStep(3);
-                      }
-                    }}
+                    onClick={e => voteHandler(e, d)}
                   >
                     Vote
                   </button>
