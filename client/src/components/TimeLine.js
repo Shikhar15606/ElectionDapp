@@ -27,7 +27,7 @@ const steps = [
 
 const TimeLine = () => {
   return (
-    <div className='relative container mx-auto px-6 my-10 flex flex-col space-y-6'>
+    <div className='relative container mx-auto px-6 my-10 flex flex-col space-y-6 max-w-7xl'>
       <div className='lg:text-center'>
         <p className='my-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl'>
           Election Process

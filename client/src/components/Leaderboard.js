@@ -114,9 +114,16 @@ export default function Leaderboard(props) {
             </h1>
           </>
         ) : (
-          <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>
-            No data to display
-          </h1>
+          <>
+            <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>
+              No Political Parties to display
+            </h1>
+            <h1 className='my-6 text-center text-xl font-semibold text-indigo-600'>
+              {`and ${individualSeats} seat${
+                individualSeats > 1 ? 's' : ''
+              } won by individual candidates`}
+            </h1>
+          </>
         )}
       </div>
     </div>

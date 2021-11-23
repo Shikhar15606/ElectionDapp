@@ -25,10 +25,11 @@ export default function AdminForms(props) {
 
   const createPartyHandler = async e => {
     e.preventDefault();
+    props.setIsLoading(true);
     const msg = await createParty(partyName, logoLink);
-    console.log('Setting : ', msg);
     await fetchHandler();
     props.setMessage(msg);
+    props.setIsLoading(false);
     // clear all the input
     setlogoLink('');
     setPartyName('');
@@ -37,15 +38,16 @@ export default function AdminForms(props) {
 
   const createCandidateHandler = async e => {
     e.preventDefault();
+    props.setIsLoading(true);
     const msg = await createCandidate(
       candidatefName + ' ' + candidatelName,
       candidateLogoLink,
       candidatePin,
       candidateParty
     );
-    console.log('Setting : ', msg);
     await fetchHandler();
     props.setMessage(msg);
+    props.setIsLoading(false);
     // clear all input
     setCandidatefName('');
     setCandidatelName('');
@@ -106,13 +108,13 @@ export default function AdminForms(props) {
   return (
     <>
       <div>
-        <div className='pt-4 md:grid md:grid-cols-3 md:gap-6 bg-gray-50'>
+        <div className='pt-4 md:grid md:grid-cols-3 md:gap-6'>
           <div className='md:col-span-1'>
             <div className='px-4 sm:px-0'>
-              <h3 className='text-lg font-medium leading-6 text-gray-900'>
+              <h3 className='text-xl font-bold leading-6 text-indigo-600'>
                 Party Registration
               </h3>
-              <p className='mt-1 text-sm text-gray-600'>
+              <p className='mt-1 text-sm text-gray-600 font-semibold'>
                 Enter the Party name alongwith the Electoral symbol
               </p>
             </div>
@@ -241,10 +243,10 @@ export default function AdminForms(props) {
         <div className='md:grid md:grid-cols-3 md:gap-6 bg-gray-50'>
           <div className='md:col-span-1'>
             <div className='px-4 sm:px-0'>
-              <h3 className='text-lg font-medium leading-6 text-gray-900'>
+              <h3 className='text-xl font-bold leading-6 text-indigo-600'>
                 Candidate Registration
               </h3>
-              <p className='mt-1 text-sm text-gray-600'>
+              <p className='mt-1 text-sm text-gray-600 font-semibold'>
                 Enter the Details of the candidate
               </p>
             </div>
