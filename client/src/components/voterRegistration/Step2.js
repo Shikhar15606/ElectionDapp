@@ -2,11 +2,15 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import { verifyOTP } from '../../actions/backend';
 import { useState } from 'react';
 import MessageComponent from '../Message';
+import LoadingComponent from '../Loading';
+
 const Step2 = props => {
-  const [err, setErr] = useState();
+  const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const verifyOTPHandler = async e => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await verifyOTP(
         props.phone,
@@ -15,19 +19,20 @@ const Step2 = props => {
         props.VoterEthID,
         props.district
       );
-      console.log('indide Verify Handler => ' + props.district);
-      // console.log(res);
-      if (res.status == true) {
-        setErr('Voter is registered');
-      } else setErr('Voter not registered');
+      setMessage(res.msg);
     } catch (err) {
       console.log(err);
-      setErr(err);
+      setMessage('Some Error Occured');
     }
+    setIsLoading(false);
   };
 
-  if (err) {
-    return <MessageComponent msg={err} />;
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+
+  if (message) {
+    return <MessageComponent msg={message} />;
   }
   return (
     <div>

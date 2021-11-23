@@ -59,7 +59,7 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
         res.status(400).json(err);
       });
   } else {
-    res.status(400).json({
+    res.status(200).json({
       msg: 'Wrong phone number :(',
       phonenumber: req.phone,
       data,
@@ -99,7 +99,7 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
             res.status(400).json(err);
           }
         } else {
-          res.status(400).json({
+          res.status(200).json({
             msg: 'Wrong phone number or code :(',
           });
         }
@@ -108,7 +108,7 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
         res.status(400).json(err);
       });
   } else {
-    res.status(400).json({
+    res.status(200).json({
       msg: 'Wrong phone number or code :(',
       phonenumber: req.body.phone,
     });

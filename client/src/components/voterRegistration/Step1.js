@@ -2,28 +2,30 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import { sendOTP } from '../../actions/backend';
 import { useState } from 'react';
 import MessageComponent from '../Message';
+import LoadingComponent from '../Loading';
 
 const Step1 = props => {
-  const [err, setErr] = useState();
+  const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendOTPHandler = async e => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await sendOTP(props.voterId);
       console.log(res);
-      if (res.msg === 'OTP is sent!') {
-        props.onSendOTP(res.district, res.phonenumber);
-      } else if (res.msg === 'Voter already registered') {
-        setErr('Voter already registered');
-      }
+      setMessage(res.msg);
     } catch (err) {
       console.log(err);
-      setErr(err);
+      setMessage('Some Error Occured');
     }
+    setIsLoading(false);
   };
-
-  if (err) {
-    return <MessageComponent msg={err} />;
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+  if (message) {
+    return <MessageComponent msg={message} />;
   }
   return (
     <div>
@@ -81,12 +83,6 @@ const Step1 = props => {
               <button
                 type='submit'
                 className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                // onClick={e => {
-                // e.preventDefault();
-                // props.setStep(2);
-                // console.log(props.voterId);
-                // console.log(props.ethereumId);
-                // }}
                 onClick={sendOTPHandler}
               >
                 <span className='absolute left-0 inset-y-0 flex items-center pl-3'>

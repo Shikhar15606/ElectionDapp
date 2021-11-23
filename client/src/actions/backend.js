@@ -58,7 +58,7 @@ const sendOTP = async voterID => {
     return res.data;
   } catch (err) {
     console.log(err);
-    return { msg: 'OTP not sent' };
+    return { msg: 'Unable to Send OTP at the moment. Try again :)' };
   }
 };
 
@@ -83,7 +83,7 @@ const verifyOTP = async (phone, code, voterID, VoterEthID, district) => {
     return res.data;
   } catch (err) {
     console.log(err);
-    return { msg: 'OTP not verified' };
+    return { msg: 'Unable to Verify OTP at the moment. Try again :)' };
   }
 };
 
