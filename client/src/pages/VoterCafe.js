@@ -22,7 +22,7 @@ const VoterCafe = props => {
     case 1:
       return <VoterRegistration />;
     // case 1:
-    //   return <Leaderboard contract={props.contract} />;
+    //   return <Vote />;
     case 2:
       return <Vote />;
     case 3:
