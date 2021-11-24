@@ -1,7 +1,36 @@
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { getCandidates } from '../../actions/smartContract';
+import { useState } from 'react';
+import MessageComponent from '../Message';
+import LoadingComponent from '../Loading';
 
 const Step1 = props => {
+  const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const submitHandler = async e => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const res = await getCandidates(props.ethereumId);
+      if (typeof res === 'string') {
+        setMessage(res);
+      } else {
+        props.setCandidates(res);
+        props.setStep(2);
+      }
+    } catch (err) {
+      setMessage('Some Error Occured');
+    }
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+  if (message) {
+    return <MessageComponent msg={message} />;
+  }
   return (
     <div>
       <div className='min-h-screen flex items-start justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
@@ -42,17 +71,7 @@ const Step1 = props => {
               <button
                 type='submit'
                 className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                onClick={async e => {
-                  e.preventDefault();
-                  console.log('My ethereum Id', props.ethereumId);
-                  const res = await getCandidates(props.ethereumId);
-                  if (res == 'You are not authorized to vote')
-                    alert('You are not authorized to vote');
-                  else {
-                    props.setCandidates(res);
-                    props.setStep(2);
-                  }
-                }}
+                onClick={submitHandler}
               >
                 <span className='absolute left-0 inset-y-0 flex items-center pl-3'>
                   <LockClosedIcon

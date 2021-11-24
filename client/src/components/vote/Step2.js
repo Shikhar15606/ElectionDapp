@@ -1,6 +1,33 @@
 import Pagination from './Pagination';
+import { useState } from 'react';
+import { vote } from '../../actions/smartContract';
+import MessageComponent from '../Message';
+import LoadingComponent from '../Loading';
 
 const Step2 = props => {
+  const voteHandler = async (e, d) => {
+    e.preventDefault();
+    console.log('Vote for ', d.val);
+    setIsLoading(true);
+    try {
+      const res = await vote(d.val);
+      setMessage(res);
+    } catch (err) {
+      setMessage('Some Error Occured');
+    }
+    setIsLoading(false);
+  };
+
+  const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
+  if (message) {
+    return <MessageComponent msg={message} />;
+  }
+
   return (
     <div>
       <div className='mx-auto max-w-5xl mt-24'>
@@ -22,12 +49,9 @@ const Step2 = props => {
             <>
               <Pagination
                 data={props.candidates}
-                title='Candidate'
-                StatisticsType='Votes'
-                StatisticsNumber='200'
                 pageLimit={5}
                 dataLimit={10}
-                setStep={props.setStep}
+                voteHandler={voteHandler}
               />
             </>
           ) : (
