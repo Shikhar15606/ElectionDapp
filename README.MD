@@ -1,11 +1,4 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![Website election-dapp](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?style=for-the-badge)](https://election-dapp.vercel.app/)
-
-What our project is all about?
+# What our project is all about?
 
 - The Decentralized Election System (DES) is a user-friendly website designed to conduct fair and online elections based on blockchain.
 
@@ -13,41 +6,7 @@ What our project is all about?
 
 - We utilize the fundamental concepts of blockchain, like immutability, security, transparency, to achieve our goals like counting votes correctly and conducting transparent and secure voting.
 
-Example env for running -
-
-- env for outermost directory
-
-```
-PRIVATE_KEY =
-PROD_BLOCKCHAIN_URL =
-ADDRESS =
-MNEMONIC =
-PORT = 5000
-DB_URI =
-STATS_DOC_ID =
-JWT_SECRET =
-COOKIE_SECRET =
-NODE_ENV = development
-SERVICE_ID =
-ACCOUNT_SID =
-AUTH_TOKEN =
-
-BLOCKCHAIN_URL = http://127.0.0.1:8545
-FRONTEND_URL = http://localhost:3000
-API_URL = http://localhost:5000
-
-ADMIN_EMAIL =
-ADMIN_PASSWORD =
-```
-
-- env for client directory
-
-```
-REACT_APP_API_URL = http://localhost:5000
-REACT_APP_BLOCKCHAIN_URL = http://127.0.0.1:8545
-```
-
-# Project Overview
+# Project Modules Overview
 
 ## Landing Page
 
@@ -55,7 +14,7 @@ The main HomePage module is where the user lands after entering the hosted URL f
 
 ### Navbar
 
-![Navbar](https://drive.google.com/uc?export=view&id=1OfqK7-Kgr9db-2F6UVpMDsMiW3IkBzLX)
+<!-- ![Navbar](https://drive.google.com/uc?export=view&id=1OfqK7-Kgr9db-2F6UVpMDsMiW3IkBzLX) -->
 
 The top section of our web-app which has secured routes to navigate to voter and admin pages.
 
@@ -163,23 +122,78 @@ This button declares the election result to be viewed on the web app. It is func
 
 All image are original and stored [here](https://drive.google.com/drive/folders/1H5mbVeP5TYveA3YZA2g4fbiremFyYaio?usp=sharing)
 
-# How to start Smart Contract
+# Local Development Setup
+## Prerequisites
+- Download Nodejs & a package manager (npm/yarn)
+- Install Truffle 
 
-## Way 1 => Ganache GUI + Truffle
+## Install Dependencies
+- Go to the outermost folder and install the dependencies
+```
+yarn install
+```
+or
+```
+npm install
+```
+- Go to the client folder and install the dependencies
+```
+yarn install
+```
+or
+```
+npm install
+```
+## Setting up Environment Variables
+- Sample env for outermost directory
 
-- open ganache if you want you may create & save a workspace
+```
+PRIVATE_KEY =
+PROD_BLOCKCHAIN_URL =
+ADDRESS =
+MNEMONIC =
+PORT = 5000
+DB_URI =
+STATS_DOC_ID =
+JWT_SECRET =
+COOKIE_SECRET =
+NODE_ENV = development
+SERVICE_ID =
+ACCOUNT_SID =
+AUTH_TOKEN =
+
+BLOCKCHAIN_URL = http://127.0.0.1:8545
+FRONTEND_URL = http://localhost:3000
+API_URL = http://localhost:5000
+
+ADMIN_EMAIL =
+ADMIN_PASSWORD =
+```
+
+- Sample env for client directory
+
+```
+REACT_APP_API_URL = http://localhost:5000
+REACT_APP_BLOCKCHAIN_URL = http://127.0.0.1:8545
+```
+
+## Starting the local blockchain network
+
+### Way 1 => Ganache GUI + Truffle
+
+- open ganache, if you want you may create & save a workspace
 
 ```
 $ truffle console --network ganache
 ```
 
-## Way 2 => No GUI just Truffle
+### Way 2 => No GUI, just Truffle
 
 ```
 $ truffle develop
 ```
 
-## Rest Procedure is common
+## Starting the frontend and backend servers
 
 - If you need backend
 
@@ -199,10 +213,11 @@ $ yarn frontend
 $ yarn dev
 ```
 
-- If you have changed the contract then just type to update artifacts
+## Bonus Tips 
+- If you have changed the smart contract then update artifacts using
 
 ```
-deploy --reset
+truffle deploy --reset
 ```
 
 - Publishing the smart contract on the ropsten test network
@@ -211,18 +226,8 @@ deploy --reset
 truffle deploy --reset --network=ropsten
 ```
 
-# How to start Local Development
-
-## How to Backend and Frontend together
-
-- Publishing the smart contract on the ropsten test network
-
-```
-truffle deploy --reset --network=ropsten
-```
-
-### Useful Links
+# Useful Links
 
 [Get free Ether for Ropsten Network](https://faucet.ropsten.be/)
 
-[Admin's Account on Ropsten](https://ropsten.etherscan.io/address/0x3cfa8d782007a5e298e3d16faffcab25883cca68)
+<!-- [Admin's Account on Ropsten](https://ropsten.etherscan.io/address/0x3cfa8d782007a5e298e3d16faffcab25883cca68) -->
