@@ -4,7 +4,7 @@ const Voters = require('../models/voters');
 const Stats = require('../models/stats');
 const Provider = require('@truffle/hdwallet-provider');
 require('dotenv').config();
-const { fetchVoter } = require('../middlewares/auth');
+const { verifyVoter } = require('../middlewares/auth');
 
 const adminPrivateKey = process.env.PRIVATE_KEY;
 const url = process.env.BLOCKCHAIN_URL;
@@ -29,17 +29,11 @@ const init = async () => {
   );
 };
 
-router.get('/', (req, res, next) => res.json({ msg: 'Application Running' }));
+router.get('/', (req, res) => res.json({ msg: 'Application Running' }));
 
 // Register Voter in Blockchain
 // Send OTP to Voter
-router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
-  if (req.hasRegistered === true) {
-    return res.status(200).json({
-      msg: 'Voter already registered',
-    });
-  }
-
+router.get('/regVoter/sendOTP', verifyVoter, (req, res) => {
   if (req.phone) {
     client.verify
       .services(process.env.SERVICE_ID)
@@ -52,7 +46,6 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
         res.status(200).json({
           msg: 'OTP is sent!',
           phonenumber: req.phone,
-          district: req.district,
         });
       })
       .catch(err => {
@@ -61,14 +54,12 @@ router.get('/regVoter/sendOTP', fetchVoter, async (req, res, next) => {
   } else {
     res.status(200).json({
       msg: 'Wrong phone number :(',
-      phonenumber: req.phone,
-      data,
     });
   }
 });
 
 // Verify OTP
-router.post('/regVoter/verifyOTP', async (req, res, next) => {
+router.post('/regVoter/verifyOTP', verifyVoter, (req, res) => {
   if (req.body.phone && req.body.code.length === 4) {
     client.verify
       .services(process.env.SERVICE_ID)
@@ -80,19 +71,18 @@ router.post('/regVoter/verifyOTP', async (req, res, next) => {
         if (data.status === 'approved') {
           console.log('OTP is approved');
           try {
-            console.log('init');
             if (!web3) await init();
             const voterAccount = req.body.VoterEthID;
             console.log(voterAccount);
+            // adding voter to blockchain
             const receipt = await electionContract.methods
-              .addVoter(voterAccount, req.body.district)
+              .addVoter(voterAccount, req.district)
               .send({ from: adminAccount });
-
-            // update mongodb
-            await Voters.updateOne(
-              { voterID: req.body.voterID },
-              { $set: { hasRegistered: true } }
-            );
+            console.log(receipt.transactionHash);
+            // mark voter as registered in mongoDB
+            await Voters.findByIdAndUpdate(req._id, {
+              $set: { hasRegistered: true },
+            });
             res.status(200).json({
               msg: 'Woohoo! Registration Successful :)',
             });
