@@ -60,7 +60,7 @@ router.get('/regVoter/sendOTP', verifyVoter, (req, res) => {
 
 // Verify OTP
 router.post('/regVoter/verifyOTP', verifyVoter, (req, res) => {
-  if (req.body.phone && req.body.code.length === 4) {
+  if (req.body.code && req.body.code.length === 4) {
     client.verify
       .services(process.env.SERVICE_ID)
       .verificationChecks.create({
@@ -78,7 +78,7 @@ router.post('/regVoter/verifyOTP', verifyVoter, (req, res) => {
             const receipt = await electionContract.methods
               .addVoter(voterAccount, req.district)
               .send({ from: adminAccount });
-            console.log(receipt.transactionHash);
+            // console.log(receipt.transactionHash);
             // mark voter as registered in mongoDB
             await Voters.findByIdAndUpdate(req._id, {
               $set: { hasRegistered: true },
@@ -102,7 +102,6 @@ router.post('/regVoter/verifyOTP', verifyVoter, (req, res) => {
   } else {
     res.status(200).json({
       msg: 'Wrong phone number or code :(',
-      phonenumber: req.body.phone,
     });
   }
 });
