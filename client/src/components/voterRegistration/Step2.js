@@ -12,13 +12,7 @@ const Step2 = props => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await verifyOTP(
-        props.phone,
-        props.otp,
-        props.voterID,
-        props.VoterEthID,
-        props.district
-      );
+      const res = await verifyOTP(props.phone, props.otp, props.VoterEthID);
       setMessage(res.msg);
     } catch (err) {
       console.log(err);
@@ -51,8 +45,7 @@ const Step2 = props => {
               Please enter the otp{' '}
             </p>
           </div>
-          <form className='mt-8 space-y-9' action='#' method='GET'>
-            <input type='hidden' name='remember' defaultValue='true' />
+          <form className='mt-8 space-y-9'>
             <div className='rounded-md shadow-sm space-y-1'>
               <div>
                 <label htmlFor='OTP' className='sr-only'>
@@ -60,7 +53,6 @@ const Step2 = props => {
                 </label>
                 <input
                   id='OTP'
-                  required
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                   placeholder='Enter OTP'
                   value={props.otp}
