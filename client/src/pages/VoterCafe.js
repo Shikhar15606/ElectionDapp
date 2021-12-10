@@ -7,7 +7,6 @@ import VoterRegistration from '../components/VoterRegistration';
 
 const VoterCafe = props => {
   const [phase, setPhase] = useState(1);
-  console.log(phase);
 
   const fetchData = useCallback(async () => {
     const newPhase = await getPhase(props.contract);
