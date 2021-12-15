@@ -2,7 +2,7 @@ import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
 import { logout } from '../actions/backend';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function classNames(...classes) {
@@ -10,7 +10,6 @@ function classNames(...classes) {
 }
 
 const Navbar = props => {
-  const history = useHistory();
   const location = useLocation();
 
   const [navigation, setNavigation] = useState([
@@ -66,7 +65,6 @@ const Navbar = props => {
     } else {
       props.setisLogin(false);
     }
-    history.push('/login');
   };
 
   return (
