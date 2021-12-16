@@ -4,8 +4,6 @@ axios.defaults.withCredentials = true;
 
 const isAdmin = async () => {
   try {
-    console.log('API', process.env.REACT_APP_API_URL);
-    console.log('Blockchain', process.env.REACT_APP_BLOCKCHAIN_URL);
     const res = await axios.get(
       `${process.env.REACT_APP_API_URL}/auth/isadmin`
     );
@@ -18,7 +16,6 @@ const isAdmin = async () => {
 };
 
 const login = async (email, password) => {
-  console.log(email, password);
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/auth/login`,
@@ -63,9 +60,6 @@ const sendOTP = async voterID => {
 };
 
 const verifyOTP = async (phone, code, VoterEthID) => {
-  console.log('phone => ' + phone);
-  console.log('code => ' + code);
-  console.log('code => ' + VoterEthID);
   try {
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/regVoter/verifyOTP`,

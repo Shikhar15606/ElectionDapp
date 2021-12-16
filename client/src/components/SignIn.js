@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { login } from '../actions/backend';
-import { useHistory } from 'react-router-dom';
 import MessageComponent from './Message';
 export default function SignIn(props) {
-  console.log(props);
-  const history = useHistory();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [err, setErr] = useState();
@@ -13,7 +10,6 @@ export default function SignIn(props) {
     e.preventDefault();
     const res = await login(email, password);
     if (res.msg === 'Login Success') {
-      history.push('/admin');
       props.setisLogin(true);
     } else {
       setErr(res.msg);
@@ -39,8 +35,7 @@ export default function SignIn(props) {
             Please Provide Admin Credentials{' '}
           </p>
         </div>
-        <form className='mt-8 space-y-9' action='#' method='POST'>
-          <input type='hidden' name='remember' defaultValue='true' />
+        <form className='mt-8 space-y-9'>
           <div className='rounded-md shadow-sm space-y-1'>
             <div>
               <label htmlFor='email-address' className='sr-only'>

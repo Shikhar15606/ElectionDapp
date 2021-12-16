@@ -15,7 +15,6 @@ export default function Leaderboard(props) {
 
   const fetchHandler = useCallback(async () => {
     const res = await fetchPoliticalParties(props.contract);
-    console.log('dekh le bhai --------------', res);
     // setting individual seats
     if (res.length > 0) setIndividualSeats(res.pop().seats);
     res.sort((a, b) => {
@@ -26,7 +25,6 @@ export default function Leaderboard(props) {
 
   const fetchDistrictwiseResult = useCallback(async () => {
     const res = await fetchCandidatesResult(parseInt(search));
-    console.log('Fetched ->', res);
     res.sort((a, b) => {
       return b.votes - a.votes;
     });
@@ -62,7 +60,6 @@ export default function Leaderboard(props) {
                   className='mt-1 h-12 block w-full py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                   value={step}
                   onChange={e => {
-                    console.log(e.target.value);
                     setStep(e.target.value);
                   }}
                 >

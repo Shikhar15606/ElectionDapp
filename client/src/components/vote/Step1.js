@@ -48,8 +48,7 @@ const Step1 = props => {
               Please enter the Ethereum Id{' '}
             </p>
           </div>
-          <form className='mt-8 space-y-9' action='#' method='GET'>
-            <input type='hidden' name='remember' defaultValue='true' />
+          <form className='mt-8 space-y-9'>
             <div className='rounded-md shadow-sm space-y-1'>
               <div>
                 <label htmlFor='EthereumId' className='sr-only'>
