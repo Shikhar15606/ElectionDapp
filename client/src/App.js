@@ -11,6 +11,7 @@ import LandingPage from './pages/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { setInFile } from './actions/smartContract';
 import ConnectWallet from './components/ConnectWallet.js';
+import './components/Pagination.css';
 const App = () => {
   const [isLogin, setisLogin] = useState('Loading');
   // ===================== web 3 ========================
@@ -75,10 +76,10 @@ const App = () => {
 
   if (!web3) {
     return (
-      <div>
+      <div className='center'>
         <ConnectWallet />
       </div>
-    )
+    );
   }
 
   return (
