@@ -15,15 +15,17 @@ const Step1 = props => {
       const res = await sendOTP(props.voterId);
       console.log(res);
       if (res.msg === 'OTP is sent!') {
-        props.onSendOTP(res.district, res.phonenumber);
+        setIsLoading(false);
+        props.onSendOTP(res.phonenumber);
       } else {
         setMessage(res.msg);
+        setIsLoading(false);
       }
     } catch (err) {
       console.log(err);
       setMessage('Some Error Occured');
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
   if (isLoading) {
     return <LoadingComponent />;
@@ -48,8 +50,7 @@ const Step1 = props => {
               Please enter the details{' '}
             </p>
           </div>
-          <form className='mt-8 space-y-9' action='#' method='GET'>
-            <input type='hidden' name='remember' defaultValue='true' />
+          <form className='mt-8 space-y-9'>
             <div className='rounded-md shadow-sm space-y-1'>
               <div>
                 <label htmlFor='voterId' className='sr-only'>
@@ -57,7 +58,6 @@ const Step1 = props => {
                 </label>
                 <input
                   id='voterId'
-                  required
                   className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                   placeholder='Voter Id'
                   value={props.voterId}

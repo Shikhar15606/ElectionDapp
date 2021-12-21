@@ -31,22 +31,37 @@ exports.checkCredentials = async (req, res, next) => {
   });
 };
 
-exports.fetchVoter = async (req, res, next) => {
-  const voterID = req.query.voterID;
-
-  Voters.findOne({ voterID: voterID }).exec(async (error, voterData) => {
+exports.verifyVoter = async (req, res, next) => {
+  let query;
+  if (req.query.voterID) {
+    query = {
+      voterID: req.query.voterID,
+    };
+  } else {
+    query = {
+      phone: req.body.phone,
+    };
+  }
+  console.log(query);
+  Voters.findOne(query).exec(async (error, voterData) => {
     if (error) {
       // some error occured
       return res.status(400).json({ error });
     }
     if (voterData) {
-      // VoterID is correct checking for password
-      req.phone = voterData.phone;
-      req.district = voterData.pinCode;
-      req.hasRegistered = voterData.hasRegistered;
-      next();
+      // Voter found
+      if (voterData.hasRegistered === true) {
+        return res.status(200).json({
+          msg: 'Voter already registered',
+        });
+      } else {
+        req.phone = voterData.phone;
+        req.district = voterData.pinCode;
+        req._id = voterData._id;
+        next();
+      }
     } else {
-      // no data found for given VoterID
+      // no data found for given Voter
       return res.status(200).json({
         msg: 'Invalid VoterID',
       });
