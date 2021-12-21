@@ -6,7 +6,7 @@
   "dependencies": {
     "@babel/helper-builder-react-jsx": "^7.15.4",
     "@babel/helper-regex": "^7.10.5",
-    "@craco/craco": "^6.3.0",
+    "@craco/craco": "^6.4.1",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
     "@tailwindcss/forms": "^0.3.4",

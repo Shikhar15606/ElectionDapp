@@ -10,6 +10,8 @@ import { isAdmin } from './actions/backend';
 import LandingPage from './pages/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { setInFile } from './actions/smartContract';
+import ConnectWallet from './components/ConnectWallet.js';
+import './components/Pagination.css';
 const App = () => {
   const [isLogin, setisLogin] = useState('Loading');
   // ===================== web 3 ========================
@@ -73,7 +75,11 @@ const App = () => {
   }, [check]);
 
   if (!web3) {
-    return <div>Loading Web3, accounts, and contract...</div>;
+    return (
+      <div className='center'>
+        <ConnectWallet />
+      </div>
+    );
   }
 
   return (
