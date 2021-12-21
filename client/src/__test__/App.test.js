@@ -17,6 +17,6 @@ it('Main App renders without crashing', () => {
 
 it('Metamask prompt renders before App', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Loading Web3/i);
+  const linkElement = screen.getByText(/You're not connected to your wallet./i);
   expect(linkElement).toBeInTheDocument();
 });
