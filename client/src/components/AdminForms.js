@@ -6,10 +6,6 @@ import {
 } from '../actions/smartContract';
 
 export default function AdminForms(props) {
-  console.log('props', props);
-  if (!props.contract) {
-    console.log('Contract Initialized in Admin Forms');
-  }
   const [parties, setParties] = useState([]);
   // ============ party data ===============
   const [logoLink, setlogoLink] = useState();
@@ -58,7 +54,6 @@ export default function AdminForms(props) {
   };
 
   const uploadImage = () => {
-    console.log(imageSelected);
     const formData = new FormData();
     formData.append('file', imageSelected);
     formData.append('upload_preset', 'wsxwpnhz');
@@ -77,7 +72,6 @@ export default function AdminForms(props) {
   };
 
   const uploadImage2 = () => {
-    console.log(imageSelected2);
     const formData = new FormData();
     formData.append('file', imageSelected2);
     formData.append('upload_preset', 'wsxwpnhz');
@@ -97,7 +91,6 @@ export default function AdminForms(props) {
 
   const fetchHandler = useCallback(async () => {
     const res = await fetchPoliticalParties(props.contract);
-    console.log('dekh le bhai --------------', res);
     setParties(res);
   }, [props.contract]);
 
@@ -310,12 +303,13 @@ export default function AdminForms(props) {
                         className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                         value={candidateParty}
                         onChange={e => {
-                          console.log(e.target.value);
                           setCandidateParty(e.target.value);
                         }}
                       >
-                        {parties.map(party => (
-                          <option value={party.val}>{party.name}</option>
+                        {parties.map((party, id) => (
+                          <option key={id} value={party.val}>
+                            {party.name}
+                          </option>
                         ))}
                       </select>
                     </div>

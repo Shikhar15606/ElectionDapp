@@ -124,7 +124,7 @@ All image are original and stored [here](https://drive.google.com/drive/folders/
 
 # Local Development Setup
 ## Prerequisites
-- Download Nodejs & a package manager (npm/yarn)
+- Download Nodejs & yarn package manager
 - Install Truffle 
 
 ## Install Dependencies
@@ -132,17 +132,9 @@ All image are original and stored [here](https://drive.google.com/drive/folders/
 ```
 yarn install
 ```
-or
-```
-npm install
-```
 - Go to the client folder and install the dependencies
 ```
 yarn install
-```
-or
-```
-npm install
 ```
 ## Setting up Environment Variables
 - Sample env for outermost directory

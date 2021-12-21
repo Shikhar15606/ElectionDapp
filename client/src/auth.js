@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Loading from './components/Loading';
 export default function Auth(
   ComposedClass,
@@ -8,16 +8,11 @@ export default function Auth(
   contract
 ) {
   function AuthenticationCheck(props) {
-    useEffect(() => {
-      if (isLogin === true && status === false) {
-        props.history.push('/admin');
-      }
-      if (isLogin === false && status === true) {
-        props.history.push('/login');
-      }
-    }, [isLogin]);
-    if (!contract) {
-      console.log('Contract Initialized in Auth');
+    if (isLogin === true && status === false) {
+      props.history.push('/admin');
+    }
+    if (isLogin === false && status === true) {
+      props.history.push('/login');
     }
 
     let obj = { isLogin, setisLogin, contract };

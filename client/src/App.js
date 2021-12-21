@@ -19,7 +19,6 @@ const App = () => {
   // ===================== setInfile ====================
   useEffect(() => {
     setInFile(web3, accounts, contract);
-    console.log('contract => ' + contract);
   }, [web3, accounts, contract]);
 
   const init = useCallback(async () => {
@@ -57,10 +56,7 @@ const App = () => {
 
   useEffect(() => {
     init();
-  }, []);
-  if (!contract) {
-    console.log('Contract Initialized');
-  }
+  }, [init]);
 
   const check = useCallback(async () => {
     try {
@@ -73,7 +69,6 @@ const App = () => {
   }, [setisLogin]);
 
   useEffect(() => {
-    console.log('Check called');
     check();
   }, [check]);
 

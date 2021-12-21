@@ -5,10 +5,6 @@ import { SpeakerphoneIcon, XIcon } from '@heroicons/react/outline';
 import LoadingComponent from '../components/Loading';
 
 const AdminDashboard = props => {
-  if (!props.contract) {
-    console.log('Contract Initialized in Admin Dashboard');
-  }
-
   const [message, setMessage] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
