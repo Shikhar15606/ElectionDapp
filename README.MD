@@ -127,8 +127,7 @@ All image are original and stored [here](https://drive.google.com/drive/folders/
 ## Prerequisites
 
 - Download Nodejs & yarn package manager
-- Install Truffle 
-
+- Install Truffle
 
 ## Install Dependencies
 
@@ -143,6 +142,7 @@ yarn install
 ```
 yarn install
 ```
+
 ## Setting up Environment Variables
 
 - Sample env for outermost directory
@@ -199,6 +199,7 @@ $ truffle develop
 
 ```
 $ yarn backend
+
 ```
 
 - If you need frontend
