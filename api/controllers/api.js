@@ -31,105 +31,103 @@ const init = async () => {
 };
 
 const sendOTP = async (req, res, next) => {
-    if (req.hasRegistered === true) {
-      return res.status(200).json({
-        msg: 'Voter already registered',
-      });
-    }
-  
-    if (req.phone) {
-      client.verify
-        .services(process.env.SERVICE_ID)
-        .verifications.create({
-          to: `+${req.phone}`,
-          channel: 'sms',
-        })
-        .then(data => {
-          console.log(data);
-          res.status(200).json({
-            msg: 'OTP is sent!',
-            phonenumber: req.phone,
-            district: req.district,
-          });
-        })
-        .catch(err => {
-          res.status(400).json(err);
-        });
-    } else {
-      res.status(200).json({
-        msg: 'Wrong phone number :(',
-        phonenumber: req.phone,
-        data,
-      });
-    }
-  }
-
-
-  const verifyOTP = async (req, res, next) => {
-    if (req.body.phone && req.body.code.length === 4) {
-      client.verify
-        .services(process.env.SERVICE_ID)
-        .verificationChecks.create({
-          to: `+${req.body.phone}`,
-          code: req.body.code,
-        })
-        .then(async data => {
-          if (data.status === 'approved') {
-            console.log('OTP is approved');
-            try {
-              console.log('init');
-              if (!web3) await init();
-              const voterAccount = req.body.VoterEthID;
-              console.log(voterAccount);
-              const receipt = await electionContract.methods
-                .addVoter(voterAccount, req.body.district)
-                .send({ from: adminAccount });
-  
-              // update mongodb
-              await Voters.updateOne(
-                { voterID: req.body.voterID },
-                { $set: { hasRegistered: true } }
-              );
-              res.status(200).json({
-                msg: 'Woohoo! Registration Successful :)',
-              });
-            } catch (err) {
-              console.log(err);
-              res.status(400).json(err);
-            }
-          } else {
-            res.status(200).json({
-              msg: 'Wrong phone number or code :(',
-            });
-          }
-        })
-        .catch(err => {
-          res.status(400).json(err);
-        });
-    } else {
-      res.status(200).json({
-        msg: 'Wrong phone number or code :(',
-        phonenumber: req.body.phone,
-      });
-    }
-  }
-  
-
-const fetchStats = async (req, res) => {
-    console.log(process.env.STATS_DOC_ID);
-    Stats.findById(process.env.STATS_DOC_ID).exec(async (error, stats) => {
-      if (error) {
-        return res.status(400).json(error);
-      }
-      if (stats) {
-        return res.status(200).json(stats);
-      } else {
-        // no data found for given Stats ID
-        return res.status(400).json({
-          msg: 'Invalid Stats ID in env',
-        });
-      }
+  if (req.hasRegistered === true) {
+    return res.status(200).json({
+      msg: 'Voter already registered',
     });
   }
 
-  module.exports = { sendOTP , verifyOTP ,fetchStats };
+  if (req.phone) {
+    client.verify
+      .services(process.env.SERVICE_ID)
+      .verifications.create({
+        to: `+${req.phone}`,
+        channel: 'sms',
+      })
+      .then(data => {
+        console.log(data);
+        res.status(200).json({
+          msg: 'OTP is sent!',
+          phonenumber: req.phone,
+          district: req.district,
+        });
+      })
+      .catch(err => {
+        res.status(400).json(err);
+      });
+  } else {
+    res.status(200).json({
+      msg: 'Wrong phone number :(',
+      phonenumber: req.phone,
+      data,
+    });
+  }
+};
+
+const verifyOTP = async (req, res, next) => {
+  if (req.body.phone && req.body.code.length === 4) {
+    client.verify
+      .services(process.env.SERVICE_ID)
+      .verificationChecks.create({
+        to: `+${req.body.phone}`,
+        code: req.body.code,
+      })
+      .then(async data => {
+        if (data.status === 'approved') {
+          console.log('OTP is approved');
+          try {
+            console.log('init');
+            if (!web3) await init();
+            const voterAccount = req.body.VoterEthID;
+            console.log(voterAccount);
+            const receipt = await electionContract.methods
+              .addVoter(voterAccount, req.body.district)
+              .send({ from: adminAccount });
+
+            // update mongodb
+            await Voters.updateOne(
+              { voterID: req.body.voterID },
+              { $set: { hasRegistered: true } }
+            );
+            res.status(200).json({
+              msg: 'Woohoo! Registration Successful :)',
+            });
+          } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+          }
+        } else {
+          res.status(200).json({
+            msg: 'Wrong phone number or code :(',
+          });
+        }
+      })
+      .catch(err => {
+        res.status(400).json(err);
+      });
+  } else {
+    res.status(200).json({
+      msg: 'Wrong phone number or code :(',
+      phonenumber: req.body.phone,
+    });
+  }
+};
+
+const fetchStats = async (req, res) => {
+  console.log(process.env.STATS_DOC_ID);
+  Stats.findById(process.env.STATS_DOC_ID).exec(async (error, stats) => {
+    if (error) {
+      return res.status(400).json(error);
+    }
+    if (stats) {
+      return res.status(200).json(stats);
+    } else {
+      // no data found for given Stats ID
+      return res.status(400).json({
+        msg: 'Invalid Stats ID in env',
+      });
+    }
+  });
+};
+
+module.exports = { sendOTP, verifyOTP, fetchStats };
