@@ -59,7 +59,7 @@
   "sourceMap": "69:326:1:-;;;229:52;8:9:-1;5:2;;;30:1;27;20:12;5:2;229:52:1;265:10;257:5;;:18;;;;;;;;;;;;;;;;;;69:326;;;;;;",
   "deployedSourceMap": "69:326:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;69:326:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;119:36;;;:::i;:::-;;;;;;;;;;;;;;;;;;;94:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;287:105;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;287:105:1;;;;;;;;;;;;;;;;;:::i;:::-;;119:36;;;;:::o;94:20::-;;;;;;;;;;;;;:::o;287:105::-;209:5;;;;;;;;;;;195:19;;:10;:19;;;191:26;;;377:9;350:24;:36;;;;191:26;287:105;:::o",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.4.21 <0.7.0;\r\n\r\ncontract Migrations {\r\n  address public owner;\r\n  uint public last_completed_migration;\r\n\r\n  modifier restricted() {\r\n    if (msg.sender == owner) _;\r\n  }\r\n\r\n  constructor() public {\r\n    owner = msg.sender;\r\n  }\r\n\r\n  function setCompleted(uint completed) public restricted {\r\n    last_completed_migration = completed;\r\n  }\r\n}",
-  "sourcePath": "F:\\Block Chain\\ElectionDapp\\contracts\\Migrations.sol",
+  "sourcePath": "C:\\Users\\Rujwi\\Desktop\\ElectionDapp\\contracts\\Migrations.sol",
   "ast": {
     "absolutePath": "project:/contracts/Migrations.sol",
     "exportedSymbols": {
@@ -970,12 +970,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xa4cF9B742fbda353A493317fF69dBFA8E079465c",
-      "transactionHash": "0x903a772fc802c79306bd27f5ee941739d77351b3bef9dcd1fbae58a309700046"
+      "address": "0x32fB29De08023C975F3E4c71993878a3A05AE5B0",
+      "transactionHash": "0x530fc936dae0a1e17899a55501b9e97d1029c8449a9b2ec4f71ae676877ebabd"
     }
   },
-  "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-24T11:58:45.003Z",
+  "schemaVersion": "3.4.4",
+  "updatedAt": "2021-12-23T06:42:42.545Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
