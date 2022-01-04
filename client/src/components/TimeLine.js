@@ -18,7 +18,7 @@ const steps = [
     icon: '3',
   },
   {
-    name: 'Decalring Results',
+    name: 'Declaring Results',
     description:
       'Results will be declared within one hour, after voting ends. Overall & Constituency wise result will be declared',
     icon: '4',
